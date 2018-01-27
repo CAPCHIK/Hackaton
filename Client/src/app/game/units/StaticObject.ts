@@ -13,9 +13,7 @@ export class StaticObject extends GameUnit {
 
     onUpdate() {
         this.position.x = 10 * Math.sin(this.timer);
-        
         this.timer += 0.01;
 
-        console.log(this.position.x);
     }
 }

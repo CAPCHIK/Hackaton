@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera } from 'babylonjs';
 import { CarryScene } from './game/scenes/CarryScene';
+import { SocketIoService } from './services/socket-io.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { CarryScene } from './game/scenes/CarryScene';
 })
 export class AppComponent implements OnInit {
   @ViewChild('canva') canvasEl: ElementRef;
-
+  constructor(private sockets: SocketIoService) { }
 
   // Логика клиентской части
   ngOnInit(): void {
@@ -20,9 +21,9 @@ export class AppComponent implements OnInit {
     const scene = new Scene(engine);
     scene.debugLayer.show();
 
-    //TODO: make scene selection
+    // TODO: make scene selection
     const currentScene = new CarryScene(scene);
-    
+
     currentScene.onStart();
 
     engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
