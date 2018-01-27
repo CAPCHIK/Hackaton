@@ -20,8 +20,6 @@ export class Mob extends GameUnit {
                     Mob.knucklesMeshes.forEach(mesh => {
                         mesh.isVisible = false;
                         BABYLON.Tags.AddTagsTo(mesh, 'enemy');
-                        // mesh.position = this.position;
-                        // esh.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
                     });
                 });
         }
