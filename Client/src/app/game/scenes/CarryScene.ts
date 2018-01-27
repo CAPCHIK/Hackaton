@@ -1,10 +1,11 @@
 import { GameScene } from '../bases/GameScene';
-import { Scene } from 'babylonjs';
+import { Scene, MeshBuilder } from 'babylonjs';
 import { StaticObject } from '../units/StaticObject';
 import { Player } from '../units/Player';
 import 'babylonjs-materials';
 import { Treasure } from '../units/Treasure';
 import { SpawnPoint } from '../units/SpawnPoint';
+import { Weapon } from '../units/Weapon';
 
 export class CarryScene extends GameScene {
     private timer = 0;
@@ -34,6 +35,25 @@ export class CarryScene extends GameScene {
 
         this.spawnPont = new SpawnPoint(this, 'spawn_point', this.treasure);
         this.spawnUnit(this.spawnPont);
+
+        this.spawnPont.position.x = Math.random() * 20 - 10;
+        this.spawnPont.position.z = Math.random() * 20 - 10;
+
+
+
+
+
+        const vrHelper = this.core.createDefaultVRExperience({
+            controllerMeshes: false
+        });
+
+        vrHelper.webVRCamera.onControllersAttachedObservable.add(
+            evData => {
+                const lCube = MeshBuilder.CreateBox('left hand', { size: 0.01 });
+                vrHelper.webVRCamera.leftController.attachToMesh(lCube);
+                const weapon = new Weapon(this, 'leftBanana', lCube);
+                this.spawnUnit(weapon);
+            });
     }
 
     onClose() {
@@ -48,7 +68,7 @@ export class CarryScene extends GameScene {
         if (this.timer > 2) {
             this.spawnPont.position = new BABYLON.Vector3(Math.random() * 50 - 25, 0, Math.random() * 50 - 25);
         }
-        
+
         this.timer += 0.1;
     }
 
