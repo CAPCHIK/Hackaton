@@ -30,12 +30,26 @@ export class Mob extends GameUnit {
         this.scaling = this.scaling.scale(0.01);
     }
 
+    onDestroy() {
+        this.meshes.forEach(mesh => {
+            mesh.dispose();
+        });
+    }
+
     onUpdate() {
         if (this.target == null) {
             return;
         }
 
-        const direction = this.target.position.subtract(this.position).normalize();
+        let direction = new BABYLON.Vector3(this.target.position.x, 0, this.target.position.z).subtract(this.position);
+
+        if (direction.length() < 2) {
+            this.scene.deleteUnit(this);
+            return;
+        }
+
+        direction = direction.normalize();
+
         this.position = this.position.add(direction.scale(0.01));
         this.position.y = 1.55;
 
