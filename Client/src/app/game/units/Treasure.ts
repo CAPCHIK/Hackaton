@@ -18,14 +18,15 @@ export class Treasure extends GameUnit {
             }
 
             model.meshes.forEach(mesh => {
-                const newMesh = mesh.clone(this.name + '_mesh', this, false);
+                const newMesh = mesh.clone(this.name + '_mesh', this);
                 newMesh.isVisible = true;
             });
-        const customMaterial = new CustomMaterial('bitcointhp', this.scene.core);
-        customMaterial.diffuseColor = Color3.Green();
-        this.hpMaterial = customMaterial;
-        this.RenderHp();
-        this.translate(Vector3.Up(), 4);
+
+            const customMaterial = new CustomMaterial('bitcointhp', this.scene.core);
+            customMaterial.diffuseColor = Color3.Green();
+            this.hpMaterial = customMaterial;
+            this.RenderHp();
+            this.translate(Vector3.Up(), 4);
         });
     }
 

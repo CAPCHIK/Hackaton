@@ -19,6 +19,11 @@ export class CarryScene extends GameScene {
 
     private spawnPoints = new Array<SpawnPoint>();
 
+    private weapon: Weapon;
+
+    private triggerPressed = false;
+    private gunCreated = false;
+
     onStart() {
         this.createEnvironment();
 
@@ -28,6 +33,7 @@ export class CarryScene extends GameScene {
         this.resourceManager.bind('terrain', 'terrain.babylon', 'terrain.png');
         this.resourceManager.bind('knuckles', 'knuckles.babylon');
         this.resourceManager.bind('bitcoin', 'bitcoin.babylon');
+        this.resourceManager.bind('banana', 'banana.babylon');
 
         this.tower = new StaticObject(this, 'tower', 'tower');
         this.spawnUnit(this.tower);
@@ -36,39 +42,43 @@ export class CarryScene extends GameScene {
         this.terrain = new StaticObject(this, 'terrain', 'terrain');
         this.spawnUnit(this.terrain);
 
-        this.player = new Player(this, 'player', new Vector3(5, 2, -10));
+        this.player = new Player(this, 'player', new Vector3(5, 5, -10));
         this.spawnUnit(this.player);
 
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
 
-        for (let i = 0; i < 2; ++i) {
+        for (let i = 0; i < 5; ++i) {
             this.spawnPoints[i] = new SpawnPoint(this, 'spawn_point', this.treasure);
             this.spawnUnit(this.spawnPoints[i]);
         }
 
+        // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
         });
 
-        vrHelper.webVRCamera.onControllersAttachedObservable.add(
-            evData => {
-                const lCube = MeshBuilder.CreateBox('left hand', { size: 0.01 });
-                const dCube = MeshBuilder.CreateBox('left hand debug', { size: 0.01 });
-                dCube.parent = lCube;
-                dCube.position.z -= 0.3;
-                vrHelper.webVRCamera.rightController.attachToMesh(lCube);
-                const weapon = new Weapon(this, 'leftBanana', lCube, dCube);
-                this.spawnUnit(weapon);
-                let val = 0;
-                vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
-                    val += evdata.value;
-                    if (val > 0.8) {
-                        weapon.shoot();
-                        val = 0;
-                    }
-                });
+        vrHelper.webVRCamera.onControllersAttachedObservable.add(evData => {
+            if (this.gunCreated === false) {
+                const cube = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
+                cube.isVisible = false;
+
+                vrHelper.webVRCamera.rightController.attachToMesh(cube);
+                this.weapon = new Weapon(this, 'banana', cube);
+                this.spawnUnit(this.weapon);
+
+                this.gunCreated = true;
+            }
+
+            vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
+                if (evdata.pressed && !this.triggerPressed) {
+                    this.weapon.shoot();
+                    this.triggerPressed = true;
+                } else if (!evdata.pressed && this.triggerPressed) {
+                    this.triggerPressed = false;
+                }
             });
+        });
     }
 
     onClose() {
@@ -82,7 +92,7 @@ export class CarryScene extends GameScene {
     onUpdate() {
         if (this.timer > 2) {
             for (let i = 0; i < this.spawnPoints.length; ++i) {
-                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 50 - 25, 0, Math.random() * 50 - 25);
+                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 100 - 50, 0, Math.random() * 100 - 50);
             }
         }
 

@@ -3,6 +3,7 @@ import { Treasure } from './Treasure';
 import { GameScene } from '../bases/GameScene';
 import { Vector3, Engine, AbstractMesh } from 'babylonjs-materials';
 import { ResourceManager, Model } from '../stuff/ResourceManager';
+import { Tags } from 'babylonjs';
 
 export class Mob extends GameUnit {
     private target: GameUnit;
@@ -12,6 +13,8 @@ export class Mob extends GameUnit {
     }
 
     onCreate() {
+        Tags.AddTagsTo(this, 'enemy');
+
         this.scene.resourceManager.load('knuckles', (model: Model) => {
             if (model == null || model.meshes == null) {
                 return;
@@ -19,6 +22,7 @@ export class Mob extends GameUnit {
 
             model.meshes.forEach(mesh => {
                 const newMesh = mesh.clone(this.name + '_mesh', this);
+                Tags.AddTagsTo(newMesh, 'enemy');
                 newMesh.isVisible = true;
             });
         });
@@ -39,8 +43,8 @@ export class Mob extends GameUnit {
 
         direction = direction.normalize();
 
-        this.position = this.position.add(direction.scale(0.1));
-        this.position.y = 0.8 + Math.sin(new Date().getTime() * 0.000001);
+        this.position = this.position.add(direction.scale(0.01 * this.scene.core.getEngine().getDeltaTime()));
+        this.position.y = 0.8; // + Math.sin(new Date().getTime() * 0.000001);
 
         const targetPosition = this.target.position.clone();
         targetPosition.y = this.position.y;
