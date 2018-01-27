@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using Microsoft.EntityFrameworkCore;
 
 namespace TelegramBot
 {
@@ -27,6 +28,10 @@ namespace TelegramBot
             services.AddMvc();
             TelegramBotClient bot = new TelegramBotClient("492217587:AAGRJcM5NzufgqL8P44Vd60KcmXfBxUNauk");
             services.AddSingleton(bot);
+
+            services.AddDbContext<ApplicationDbContext>(
+                builder => builder.UseSqlServer("Server=tcp:payeddb.database.windows.net,1433;Initial Catalog=gunhackfuckhim;Persist Security Info=False;User ID=capchik;Password=AwesomePass1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

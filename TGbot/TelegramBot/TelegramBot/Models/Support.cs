@@ -7,8 +7,6 @@ namespace TelegramBot.Models
 {
     public class Support
     {
-
-
-
+        public Guid Id { get; set; }
     }
 }

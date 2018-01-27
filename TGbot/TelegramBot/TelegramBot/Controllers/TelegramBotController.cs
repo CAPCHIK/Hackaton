@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InlineKeyboardButtons;
+using TelegramBot.Models;
 
 namespace TelegramBot.Controllers
 {
@@ -19,15 +20,17 @@ namespace TelegramBot.Controllers
     public class TelegramBotController : Controller
     {
         private readonly TelegramBotClient telegramBotClient;
+        private readonly ApplicationDbContext dbContext;
 
-        public TelegramBotController(TelegramBotClient telegramBotClient)
+        public TelegramBotController(TelegramBotClient telegramBotClient, ApplicationDbContext dbContext)
         {
             this.telegramBotClient = telegramBotClient;
+            this.dbContext = dbContext;
         }
 
         [HttpPost]
         [Route("hook")]
-        public async Task<IActionResult> Hook([FromBody]Update update)
+        public async Task<IActionResult> Hook([FromBody]Update update, Player model)
         {
             if (update == null)
             {
@@ -50,44 +53,47 @@ namespace TelegramBot.Controllers
 
             if (message.Text.StartsWith("Carry"))
             {
-                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Переход на Яндекс!", "yandex.ru") });
+                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Перекрестись и прыгай в виртуальную реальность(VR)", "yandex.ru") });
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Carry. Приятной игры, чувак!;)", replyMarkup: inlineKeyboard);
 
             }
 
             if (message.Text.StartsWith("Support"))
             {
-                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Переход на Google !", "google.com") });
+
+                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Перекрестись и прыгай в дополненную реальность(AR)", "https://vk.com/away.php?to=https%3A%2F%2Fwebrtcfunhack.azurewebsites.net%2Fself%2Fexamples%2Findex.html&cc_key=") });
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Support. Приятной игры, чувак!;)", replyMarkup: inlineKeyboard);
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Но перед этим тебе нужно распечатать эту шнягу, чтобы все хорошо работало. Для этого перейди по следующей ссылке:\n https://vk.com/away.php?to=https%3A%2F%2Fwebrtcfunhack.azurewebsites.net%2Fself%2Fexamples%2Fassets%2Fpictures%2Fextensions%2Fhiro.jpg&cc_key=)");
             }
 
             if (message.Text.StartsWith("/help"))
             {
-                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "1. /game - начать игру.\n2. /help - показать список команд");
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "1. /game - начать игру.\n2. /help - показать список команд.\n3. /score - вывести таблицу результатовю.\n4./start - начать общение со мной");
             }
 
             if (message.Text.StartsWith("/start"))
             {
-                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Привет чуваааак! Ты зашел к MemDefenseBot. Чтобы начать играть в самую А%@$&*Ю игру начеркай мне /game и наслаждайся игрой мазафака!))");
+                model.TelegramId = message.From.Id;
+                var player = dbContext.Players.FirstOrDefault(P => P.TelegramId == message.From.Id);
+                if (player == null)
+                {
+                    model.Support = new Support();
+                    model.Carry = new Carry();
+                    await dbContext.Players.AddAsync(model);
+                    await dbContext.SaveChangesAsync();
+                    await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Привет чуваааак! Ты зашел к MemDefenseBot. Чтобы начать играть в самую А%@$&*Ю игру начеркай мне /game и наслаждайся игрой!))");
+                }
+                if (player != null)
+                {
+                    await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Какие люди, х@и на блюде, прыгай ко мне в игру!))/game");
+                }
+            }
+
+            if (message.Text.StartsWith("/score"))
+            {
+
             }
             return Ok();
-
         }
     }
-
-
-
-    //private async Task SendMessage(long clientId, string messageText, IReplyMarkup markup = null)
-    //{
-    //    if (messageId == null)
-    //    {
-    //        var m = await telegramBotClient.SendTextMessageAsync(clientId, messageText, replyMarkup: markup);
-    //        messageId = m.MessageId;
-    //    }
-    //    else
-    //    {
-    //        await telegramBotClient.EditMessageTextAsync(clientId, messageId.Value, messageText, replyMarkup: markup);
-
-    //    }
-    //}
 }

@@ -7,7 +7,6 @@ namespace TelegramBot.Models
 {
     public class Carry
     {
-
-
+        public Guid Id { get; set; }
     }
 }
