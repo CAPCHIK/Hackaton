@@ -1,5 +1,5 @@
 import { GameScene } from '../bases/GameScene';
-import { Scene, MeshBuilder } from 'babylonjs';
+import { Scene, MeshBuilder, Vector3 } from 'babylonjs';
 import { StaticObject } from '../units/StaticObject';
 import { Player } from '../units/Player';
 import 'babylonjs-materials';
@@ -36,7 +36,7 @@ export class CarryScene extends GameScene {
         this.terrain = new StaticObject(this, 'terrain', 'terrain');
         this.spawnUnit(this.terrain);
 
-        this.player = new Player(this, 'player');
+        this.player = new Player(this, 'player', new Vector3(5, 2, -10));
         this.spawnUnit(this.player);
 
         this.treasure = new Treasure(this, 'treasure');
