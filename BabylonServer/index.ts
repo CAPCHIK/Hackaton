@@ -1,6 +1,5 @@
 import * as http from "http";
 import * as sockio from "socket.io";
-import { NetworkManager } from "./src/NetworkManager";
 
 const server: http.Server = http.createServer((req, res) => {
     res.end("For replication");
@@ -9,8 +8,19 @@ const server: http.Server = http.createServer((req, res) => {
 server.listen(4000);
 
 const io: SocketIO.Server = sockio(server);
-const networkManager = new NetworkManager(io);
 
 io.on("connection", socket => {
-    networkManager.addConnection(socket);
+    console.log("added client");
+
+    socket.on("freeze", data =>
+        socket.broadcast.emit("freeze", data));
+    socket.on("treasure_hp", () =>
+        socket.broadcast.emit("treasure_hp"));
+    socket.on("build_tower", data =>
+        socket.broadcast.emit("build_tower", data));
+    socket.on("carry_buff", () =>
+        socket.broadcast.emit("carry_buff"));
+    socket.on("move_treasure", data =>
+        socket.broadcast.emit("move_treasure", data));
+
 });
