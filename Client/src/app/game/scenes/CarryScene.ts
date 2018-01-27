@@ -53,11 +53,11 @@ export class CarryScene extends GameScene {
                 const dCube = MeshBuilder.CreateBox('left hand debug', { size: 0.01 });
                 dCube.parent = lCube;
                 dCube.position.z -= 0.3;
-                vrHelper.webVRCamera.leftController.attachToMesh(lCube);
-                const weapon = new Weapon(this, 'leftBanana', lCube);
+                vrHelper.webVRCamera.rightController.attachToMesh(lCube);
+                const weapon = new Weapon(this, 'leftBanana', lCube, dCube);
                 this.spawnUnit(weapon);
                 let val = 0;
-                vrHelper.webVRCamera.leftController.onTriggerStateChangedObservable.add(evdata => {
+                vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
                     val += evdata.value;
                     if (val > 0.8) {
                         weapon.shoot();
@@ -95,6 +95,7 @@ export class CarryScene extends GameScene {
     // Stuff
     createEnvironment() {
         const light = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
+        const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
 
         const skyMaterial = new BABYLON.SkyMaterial('skyMaterial', this.core);
         skyMaterial.backFaceCulling = false;
@@ -103,5 +104,6 @@ export class CarryScene extends GameScene {
 
         const skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.core);
         skybox.material = skyMaterial;
+
     }
 }
