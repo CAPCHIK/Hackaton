@@ -24,10 +24,8 @@ export class Treasure extends GameUnit {
                 {radius: 4, arc: 1, sideOrientation: BABYLON.Mesh.DOUBLESIDE});
             this.hpIndicator.parent = this;
     }
-
     onUpdate() {
         this.position.y = 0.7 * Math.sin(0.001 * new Date().getTime());
         this.rotate(BABYLON.Vector3.Up(), 0.000000000000007 * new Date().getTime() );
     }
-
 }
