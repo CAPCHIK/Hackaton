@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera } from 'babylonjs';
 import { CarryScene } from './game/scenes/CarryScene';
-import 'babylonjs-materials';
+import { SocketIoService } from './services/socket-io.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import 'babylonjs-materials';
 })
 export class AppComponent implements OnInit {
   @ViewChild('canva') canvasEl: ElementRef;
-
+  constructor(private sockets: SocketIoService) { }
 
   // Логика клиентской части
   ngOnInit(): void {

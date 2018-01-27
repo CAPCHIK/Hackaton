@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { SocketIoService } from './services/socket-io.service';
 
 
 @NgModule({
@@ -13,7 +12,7 @@ import { SocketIoService } from './services/socket-io.service';
   imports: [
     BrowserModule
   ],
-  providers: [SocketIoService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
