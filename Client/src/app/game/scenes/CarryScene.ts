@@ -2,7 +2,7 @@ import { GameScene } from '../bases/GameScene';
 import { Scene } from 'babylonjs';
 import { StaticObject } from '../units/StaticObject';
 import { Player } from '../units/Player';
-import { ShadowGenerator } from 'babylonjs-materials';
+import 'babylonjs-materials';
 
 export class CarryScene extends GameScene {
     private player: Player;
@@ -54,7 +54,5 @@ export class CarryScene extends GameScene {
 
         const skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.core);
         skybox.material = skyMaterial;
-
-        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, light);
     }
 }

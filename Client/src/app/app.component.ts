@@ -5,39 +5,41 @@ import { CarryScene } from './game/scenes/CarryScene';
 import { SocketIoService } from './services/socket-io.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  @ViewChild('canva') canvasEl: ElementRef;
-  constructor(private sockets: SocketIoService) { }
+    @ViewChild('canva') canvasEl: ElementRef;
+    constructor(private socket: SocketIoService) { }
 
-  // Логика клиентской части
-  ngOnInit(): void {
-    const canvas = this.canvasEl.nativeElement;
-    const engine = new Engine(canvas, true); // Generate the BABYLON 3D engine
-    // Create the scene space
-    const scene = new Scene(engine);
-    scene.debugLayer.show();
+    // Логика клиентской части
+    ngOnInit(): void {
+        const canvas = this.canvasEl.nativeElement;
+        const engine = new Engine(canvas, true);
 
-    // TODO: make scene selection
-    const currentScene = new CarryScene(scene);
+        const scene = new Scene(engine);
+        scene.debugLayer.show();
 
-    currentScene.onStart();
+        const currentScene = new CarryScene(scene, this.socket);
 
-    engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
-      currentScene.preUpdate();
+        this.socket.connection.on('create_object', (data: any) => {
+            currentScene.onSpawnObject(data);
+        });
 
-      currentScene.onGui();
-      currentScene.onUpdate();
-      currentScene.onDraw();
-    });
+        currentScene.onStart();
 
-    window.addEventListener('resize', function () { // Watch for browser/canvas resize events
-      engine.resize();
-      currentScene.onResize();
-    });
-  }
+        engine.runRenderLoop(function () {
+            currentScene.preUpdate();
 
+            currentScene.onGui();
+            currentScene.onUpdate();
+            currentScene.onDraw();
+        });
+
+        window.addEventListener('resize', function () {
+            engine.resize();
+            currentScene.onResize();
+        });
+    }
 }

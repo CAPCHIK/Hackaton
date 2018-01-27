@@ -11,8 +11,6 @@ export interface LootConfig {
 }
 
 export class Loot extends GameUnit {
-    
     onUpdate() {
-        
     }
 }
