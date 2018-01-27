@@ -1,6 +1,5 @@
 import { GameUnit } from '../bases/GameUnit';
 import { GameScene } from '../bases/GameScene';
-import { setTimeout } from 'timers';
 import { AbstractMesh } from 'babylonjs';
 
 export class Treasure extends GameUnit {
@@ -23,12 +22,10 @@ export class Treasure extends GameUnit {
             });
             this.hpIndicator = BABYLON.MeshBuilder.CreateDisc('bitcoin htp indicator',
                 {radius: 4, arc: 1, sideOrientation: BABYLON.Mesh.DOUBLESIDE});
-                this.hpIndicator.position.z -= 0.5;
             this.hpIndicator.parent = this;
     }
-
+    onUpdate() {
         this.position.y = 0.7 * Math.sin(0.001 * new Date().getTime());
         this.rotate(BABYLON.Vector3.Up(), 0.000000000000007 * new Date().getTime() );
     }
-    onUpdate() {
 }
