@@ -1,6 +1,7 @@
 import { GameUnit } from '../bases/GameUnit';
 import { Treasure } from './Treasure';
 import { GameScene } from '../bases/GameScene';
+import { Vector3 } from 'babylonjs-materials';
 
 export class Mob extends GameUnit {
     private target: GameUnit;
@@ -37,6 +38,9 @@ export class Mob extends GameUnit {
         const direction = this.target.position.subtract(this.position).normalize();
         this.position = this.position.add(direction.scale(0.01));
         this.position.y = 1.55;
+
+        this.rotation = new BABYLON.Vector3(-Math.PI / 2, 
+            Math.acos(BABYLON.Vector3.Dot(direction, this.getDirection(new Vector3(-1, 0, 0)))), 0);
     }
 
     setTarget(target: GameUnit) {
