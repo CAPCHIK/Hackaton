@@ -1,0 +1,31 @@
+{
+  "name": "babylon_server",
+  "version": "1.2.0",
+  "description": "",
+  "license": "MIT",
+  "author": "CAPCHIK",
+  "keywords": [
+    "typescript",
+    "nodejs"
+  ],
+  "scripts": {
+    "tsc": "tsc",
+    "tsc-watch": "tsc -w",
+    "start": "node build/index.js",
+    "setup": "npm install & typings install",
+    "watch": "nodemon --watch build/src build/src/index.js"
+  },
+  "dependencies": {
+    "path": "^0.12.7",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/nconf": "0.0.34",
+    "@types/node": "^7.0.21",
+    "@types/socket.io": "^1.4.31",
+    "chai": "^3.5.0",
+    "nodemon": "^1.11.0",
+    "tslint": "^5.2.0",
+    "typescript": "^2.3.2"
+  }
+}
