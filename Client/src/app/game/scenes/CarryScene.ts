@@ -3,23 +3,37 @@ import { Scene } from 'babylonjs';
 import { StaticObject } from '../units/StaticObject';
 import { Player } from '../units/Player';
 import 'babylonjs-materials';
+import { Treasure } from '../units/Treasure';
+import { SpawnPoint } from '../units/SpawnPoint';
 
 export class CarryScene extends GameScene {
     private player: Player;
     private tower: StaticObject;
     private terrain: StaticObject;
 
+    private treasure: Treasure;
+    private spawnPont: SpawnPoint;
+
     onStart() {
         this.createEnvironment();
 
         this.tower = new StaticObject(this, 'tower', 'tower_1.babylon');
         this.spawnUnit(this.tower);
+        this.tower.position = new BABYLON.Vector3(10, 0, -10);
 
         this.player = new Player(this, 'player');
         this.spawnUnit(this.player);
 
         this.terrain = new StaticObject(this, 'terrain', 'terrain.babylon');
         this.spawnUnit(this.terrain);
+
+        this.treasure = new Treasure(this, 'treasure');
+        this.spawnUnit(this.treasure);
+
+        this.spawnPont = new SpawnPoint(this, 'spawn_point', this.treasure);
+        this.spawnUnit(this.spawnPont);
+        this.spawnPont.position.x = Math.random() * 20 - 10;
+        this.spawnPont.position.z = Math.random() * 20 - 10;
     }
 
     onClose() {

@@ -32,12 +32,12 @@ class SerializationHelper {
 export abstract class GameScene {
     readonly core: BABYLON.Scene;
     public socketService: SocketIoService;
-    protected units: Map<number, GameUnit>;
+    protected units: Map<string, GameUnit>;
 
     public constructor(core: BABYLON.Scene, socket: SocketIoService) {
         this.core = core;
         this.socketService = socket;
-        this.units = new Map<number, GameUnit>();
+        this.units = new Map<string, GameUnit>();
     }
 
     abstract onStart(): void;
@@ -60,13 +60,22 @@ export abstract class GameScene {
     }
 
     spawnUnit(unit: GameUnit) {
-        const unitObject = unit.getSyncData();
+        /*const unitObject = unit.getSyncData();
         unitObject._type = unit.constructor.name;
 
-        this.socketService.connection.emit('create_object', unitObject);
+        this.socketService.connection.emit('create_object', unitObject);*/
+
+        this.units.set(unit.name, unit);
+        unit.onCreate();
     }
 
-    onSpawnObject(unitObject: any) {
+    deleteUnit(unit: GameUnit) {
+        unit.onDestroy();
+        unit.dispose();
+        this.units.delete(unit.name);
+    }
+
+    /*onSpawnObject(unitObject: any) {
         const result = 'SerializationHelper.toInstance(new ' + unitObject._type + '(), json);';
         const objectCasting = ts.transpile(result);
         console.log(result);
@@ -76,5 +85,5 @@ export abstract class GameScene {
 
         this.units.set(unit.uid, unit);
         unit.onCreate();
-    }
+    }*/
 }

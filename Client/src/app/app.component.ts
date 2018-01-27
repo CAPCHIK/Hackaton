@@ -23,10 +23,6 @@ export class AppComponent implements OnInit {
 
         const currentScene = new CarryScene(scene, this.socket);
 
-        this.socket.connection.on('create_object', (data: any) => {
-            currentScene.onSpawnObject(data);
-        });
-
         currentScene.onStart();
 
         engine.runRenderLoop(function () {
