@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Telegram.Bot;
+using Telegram.Bot.Args;
 
 namespace TelegramBot
 {
@@ -20,13 +22,13 @@ namespace TelegramBot
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            TelegramBotClient bot = new TelegramBotClient("492217587:AAGRJcM5NzufgqL8P44Vd60KcmXfBxUNauk");
+            services.AddSingleton(bot);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

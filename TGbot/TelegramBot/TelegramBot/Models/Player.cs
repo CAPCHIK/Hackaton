@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace TelegramBot.Models
+{
+    public class Player
+    {
+        private Carry carry;
+        private Support support;
+
+    }
+}
