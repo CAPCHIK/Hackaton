@@ -1,0 +1,29 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 27.01.2018 19:53:08
+
+newmtl Material_39
+	Ns 100.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.4980 0.4980 0.4980
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka boss-witness.fbm\4.png
+	map_Kd boss-witness.fbm\4.png
+	map_Ks boss-witness.fbm\5.png
+
+newmtl Material_219
+	Ns 59.7429
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 0.9490 0.0000
+	Ks 0.2196 0.2196 0.2196
+	Ke 0.0000 0.0000 0.0000
