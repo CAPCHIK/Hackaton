@@ -15,7 +15,8 @@ export class CarryScene extends GameScene {
     private terrain: StaticObject;
 
     private treasure: Treasure;
-    private spawnPont: SpawnPoint;
+
+    private spawnPoints = new Array<SpawnPoint>();
 
     onStart() {
         this.createEnvironment();
@@ -33,15 +34,10 @@ export class CarryScene extends GameScene {
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
 
-        this.spawnPont = new SpawnPoint(this, 'spawn_point', this.treasure);
-        this.spawnUnit(this.spawnPont);
-
-        this.spawnPont.position.x = Math.random() * 20 - 10;
-        this.spawnPont.position.z = Math.random() * 20 - 10;
-
-
-
-
+        for (let i = 0; i < 2; ++i) {
+            this.spawnPoints[i] = new SpawnPoint(this, 'spawn_point', this.treasure);
+            this.spawnUnit(this.spawnPoints[i]);
+        }
 
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
@@ -77,7 +73,9 @@ export class CarryScene extends GameScene {
 
     onUpdate() {
         if (this.timer > 2) {
-            this.spawnPont.position = new BABYLON.Vector3(Math.random() * 50 - 25, 0, Math.random() * 50 - 25);
+            for (let i = 0; i < this.spawnPoints.length; ++i) {
+                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 50 - 25, 0, Math.random() * 50 - 25);
+            }
         }
 
         this.timer += 0.1;

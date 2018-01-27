@@ -3,7 +3,7 @@ import { GameScene } from '../bases/GameScene';
 
 export class Treasure extends GameUnit {
     private meshes: BABYLON.AbstractMesh[];
-    private timer = 0;
+    private timer = 0.0;
 
     constructor(scene: GameScene, name: string) {
         super(scene, name);
@@ -20,10 +20,5 @@ export class Treasure extends GameUnit {
                    //  mesh.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
                 });
             });
-    }
-
-    onUpdate() {
-        this.position.y = 3 * Math.sign(this.timer);
-        this.timer += 0.01;
     }
 }
