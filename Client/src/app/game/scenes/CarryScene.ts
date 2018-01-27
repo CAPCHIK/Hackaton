@@ -8,6 +8,8 @@ import { SpawnPoint } from '../units/SpawnPoint';
 import { Weapon } from '../units/Weapon';
 
 export class CarryScene extends GameScene {
+    private timer = 0;
+
     private player: Player;
     private tower: StaticObject;
     private terrain: StaticObject;
@@ -33,6 +35,7 @@ export class CarryScene extends GameScene {
 
         this.spawnPont = new SpawnPoint(this, 'spawn_point', this.treasure);
         this.spawnUnit(this.spawnPont);
+
         this.spawnPont.position.x = Math.random() * 20 - 10;
         this.spawnPont.position.z = Math.random() * 20 - 10;
 
@@ -62,7 +65,11 @@ export class CarryScene extends GameScene {
     }
 
     onUpdate() {
+        if (this.timer > 2) {
+            this.spawnPont.position = new BABYLON.Vector3(Math.random() * 50 - 25, 0, Math.random() * 50 - 25);
+        }
 
+        this.timer += 0.1;
     }
 
     onDraw() {
