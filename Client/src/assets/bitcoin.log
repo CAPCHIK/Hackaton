@@ -7,11 +7,11 @@ Exporter version: 5.5.0, Blender version: 2.79 (sub 0)
 		texture directory:  C:\Users\RealityShift13\projects\Hackaton\Client\src\assets\
 	Python World class constructor completed
 	WARNING: No active camera has been assigned, or is not in a currently selected Blender layer
-	processing begun of mesh:  node_id28.001
+	processing begun of mesh:  node_id28
+		processing begun of Standard material:  Material_47
 		processing begun of Standard material:  Material_48
 			Diffuse texture found "6.png"
 				Image texture found, type:  diffuseTexture, mapped using: "UVMap"
-		processing begun of Standard material:  Material_47
 		processing begun of multimaterial:  bitcoin.Multimaterial#0
 		num positions      :  40795
 		num normals        :  40795
@@ -22,4 +22,4 @@ Exporter version: 5.5.0, Blender version: 2.79 (sub 0)
 ========= Writing of scene file started =========
 ========= Writing of scene file completed =========
 ========= end of processing =========
-elapsed time:  0 min, 1.6338 secs
+elapsed time:  0 min, 1.4762 secs
