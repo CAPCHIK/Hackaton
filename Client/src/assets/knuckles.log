@@ -9,8 +9,8 @@ Exporter version: 5.5.0, Blender version: 2.79 (sub 0)
 	WARNING: No active camera has been assigned, or is not in a currently selected Blender layer
 	processing begun of node:  node_id28
 	processing begun of mesh:  node_id75
-		processing begun of Standard material:  Material_47
-			Diffuse texture found "5.png"
+		processing begun of Standard material:  Material_47.002
+			Diffuse texture found "5.png.001"
 				Image texture found, type:  diffuseTexture, mapped using: "UVMap"
 		num positions      :  6845
 		num normals        :  6845
@@ -19,8 +19,8 @@ Exporter version: 5.5.0, Blender version: 2.79 (sub 0)
 		num colors         :  0
 		num indices        :  30636
 	processing begun of mesh:  node_id75.001
-		processing begun of Standard material:  Material_48
-			Diffuse texture found "7.png"
+		processing begun of Standard material:  Material_48.002
+			Diffuse texture found "7.png.001"
 				Image texture found, type:  diffuseTexture, mapped using: "UVMap"
 		num positions      :  856
 		num normals        :  856
@@ -77,4 +77,4 @@ Exporter version: 5.5.0, Blender version: 2.79 (sub 0)
 ========= Writing of scene file started =========
 ========= Writing of scene file completed =========
 ========= end of processing =========
-elapsed time:  0 min, 1.1011 secs
+elapsed time:  0 min, 1.1215 secs
