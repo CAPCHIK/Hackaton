@@ -1,0 +1,287 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 27.01.2018 16:41:14
+
+newmtl Material_74
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\22.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\22.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\23.png
+
+newmtl Material_75
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\16.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\16.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\17.png
+
+newmtl Material_76
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\14.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\14.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\15.png
+
+newmtl Material_77
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\20.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\20.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\21.png
+
+newmtl Material_78
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\7.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\7.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\17.png
+
+newmtl Material_79
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\18.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\18.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\19.png
+
+newmtl Material_80
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\16.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\16.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\17.png
+
+newmtl Material_81
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\22.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\22.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\23.png
+
+newmtl Material_82
+	Ns 25.4198
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\12.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\12.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\13.png
+
+newmtl Material_141
+	Ns 42.8807
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\28.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\28.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\29.png
+
+newmtl Material_142
+	Ns 42.8807
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\28.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\28.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\29.png
+
+newmtl Material_150
+	Ns 42.8807
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\31.png
+
+newmtl Material_151
+	Ns 42.8807
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\31.png
+
+newmtl Material_157
+	Ns 42.8807
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\31.png
+
+newmtl Material_158
+	Ns 42.8807
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\30.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\31.png
+
+newmtl Material_179
+	Ns 67.4517
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.4549 0.4549 0.4549
+	Ks 0.0392 0.0392 0.0392
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\32.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\32.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\33.png
+
+newmtl Material_180
+	Ns 67.4517
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.4549 0.4549 0.4549
+	Ks 0.0392 0.0392 0.0392
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\32.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\32.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\33.png
+
+newmtl Material_181
+	Ns 67.4517
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.4549 0.4549 0.4549
+	Ks 0.0392 0.0392 0.0392
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\32.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\32.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\33.png
+
+newmtl Material_126
+	Ns 42.8807
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.4980 0.4980 0.4980
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\SystemFolders\Desktop\island2.fbm\26.png
+	map_Kd D:\SystemFolders\Desktop\island2.fbm\26.png
+	map_Ks D:\SystemFolders\Desktop\island2.fbm\27.png
