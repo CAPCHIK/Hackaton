@@ -19,7 +19,10 @@ io.on("connection", socket => {
     socket.on("build_tower", data =>
         socket.broadcast.emit("build_tower", data));
     socket.on("carry_buff", () =>
-        socket.broadcast.emit("carry_buff"));
+    {
+        console.log('carry buff');
+        socket.broadcast.emit("carry_buff");
+    });
     socket.on("move_treasure", data =>
         socket.broadcast.emit("move_treasure", data));
 

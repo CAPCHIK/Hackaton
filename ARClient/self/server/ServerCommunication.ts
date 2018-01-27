@@ -1,4 +1,4 @@
-const socket = io('http://localhost');
+const socket = io('http://localhost:4000');
 socket.on('connect', function () { });
 
 
@@ -14,6 +14,7 @@ class ServerCommunication {
     }
 
     public CarryBuff() {
+        console.log("carry_buff invoked");
         socket.emit('carry_buff');
     }
 

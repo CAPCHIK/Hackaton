@@ -7,5 +7,8 @@ export class SocketIoService {
 
     constructor() {
         this.connection = io('http://localhost:4000');
+        this.connection.on('carry_buff',
+            () => console.log('accy recieved!!')); 
+
     }
 }
