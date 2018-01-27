@@ -3,6 +3,7 @@ import { ElementRef } from '@angular/core';
 import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera } from 'babylonjs';
 import { CarryScene } from './game/scenes/CarryScene';
 import { SocketIoService } from './services/socket-io.service';
+import { VRExperienceHelper, MeshBuilder } from 'babylonjs-materials';
 
 @Component({
     selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit {
         const engine = new Engine(canvas, true);
 
         const scene = new Scene(engine);
-        scene.debugLayer.show();
+        // scene.debugLayer.show();
+        
 
         const currentScene = new CarryScene(scene, this.socket);
 
