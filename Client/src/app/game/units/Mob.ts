@@ -32,7 +32,7 @@ export class Mob extends GameUnit {
             return;
         }
 
-        this.meshes = new Array < AbstractMesh>();
+        this.meshes = new Array<AbstractMesh>();
 
         Mob.knucklesMeshes.forEach(mesh => {
             const newMesh = mesh.clone('mob_model', this, false);
@@ -49,6 +49,7 @@ export class Mob extends GameUnit {
         let direction = new BABYLON.Vector3(this.target.position.x, 0, this.target.position.z).subtract(this.position);
 
         if (direction.length() < 2) {
+            this.target.applyDamage(0.3);
             this.scene.deleteUnit(this);
             return;
         }
@@ -56,9 +57,9 @@ export class Mob extends GameUnit {
         direction = direction.normalize();
 
         this.position = this.position.add(direction.scale(0.1));
-        this.position.y = 0.8;
+        this.position.y = 0.8 + Math.sin(new Date().getTime() * 0.000001);
 
-        const targetPosition = this.target.position;
+        const targetPosition = this.target.position.clone();
         targetPosition.y = this.position.y;
         this.lookAt(targetPosition);
     }
