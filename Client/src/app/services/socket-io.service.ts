@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
+
 @Injectable()
 export class SocketIoService {
+    connection: any;
 
-  constructor() {
-    const connection = io('http://localhost');
-    connection.on('ok', data => {
-    });
-  }
-
+    constructor() {
+        this.connection = io('http://localhost:4000');
+    }
 }
