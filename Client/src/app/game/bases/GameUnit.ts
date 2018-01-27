@@ -19,6 +19,9 @@ export abstract class GameUnit extends TransformNode {
 
     onUpdate() {}
 
+
+    applyDamage() {}
+
     getSyncData(): any {
         return {
             name: this.name,
