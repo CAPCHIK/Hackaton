@@ -1,7 +1,7 @@
 import { GameUnit } from '../bases/GameUnit';
 import { Treasure } from './Treasure';
 import { GameScene } from '../bases/GameScene';
-import { Vector3 } from 'babylonjs-materials';
+import { Vector3, Engine } from 'babylonjs-materials';
 
 export class Mob extends GameUnit {
     private target: GameUnit;
@@ -18,8 +18,9 @@ export class Mob extends GameUnit {
 
                 this.meshes.forEach(mesh => {
                     mesh.parent = this;
+                    BABYLON.Tags.AddTagsTo(mesh, 'enemy');
                     mesh.position = this.position;
-                    mesh.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
+                    // mesh.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
                 });
 
                 this.meshes[1].rotation.x = Math.PI / 2;
@@ -28,12 +29,6 @@ export class Mob extends GameUnit {
 
         this.rotation.x -= Math.PI / 2;
         this.scaling = this.scaling.scale(0.01);
-    }
-
-    onDestroy() {
-        this.meshes.forEach(mesh => {
-            mesh.dispose();
-        });
     }
 
     onUpdate() {
@@ -50,10 +45,10 @@ export class Mob extends GameUnit {
 
         direction = direction.normalize();
 
-        this.position = this.position.add(direction.scale(0.01));
+        this.position = this.position.add(direction.scale(0.1));
         this.position.y = 1.55;
 
-        this.rotation = new BABYLON.Vector3(-Math.PI / 2, 
+        this.rotation = new BABYLON.Vector3(-Math.PI / 2,
             Math.acos(BABYLON.Vector3.Dot(direction, this.getDirection(new Vector3(-1, 0, 0)))), 0);
     }
 

@@ -16,7 +16,8 @@ export class Treasure extends GameUnit {
 
                 this.meshes.forEach(mesh => {
                     mesh.parent = this;
-                    mesh.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
+                    mesh.name = 'bitcoin';
+                   //  mesh.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
                 });
             });
     }
