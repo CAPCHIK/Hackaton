@@ -1,7 +1,9 @@
 import { GameUnit } from './GameUnit';
+import { ShadowGenerator } from 'babylonjs';
 
 export abstract class GameScene {
     readonly core: BABYLON.Scene;
+    public shadowGenerator: ShadowGenerator;
     protected units: Map<string, GameUnit>;
 
     public constructor(core: BABYLON.Scene) {

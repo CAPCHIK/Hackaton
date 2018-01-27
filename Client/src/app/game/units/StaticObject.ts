@@ -1,21 +1,26 @@
 import { GameUnit } from '../bases/GameUnit';
 import { Debug, float } from 'babylonjs';
+import { GameScene } from '../bases/GameScene';
 
 export class StaticObject extends GameUnit {
-    private model: BABYLON.Mesh;
+    private meshes: BABYLON.AbstractMesh[];
 
-    private timer: float = 0;
+    constructor(scene: GameScene, name: string, private modelName: string) {
+        super(scene, name);
+    }
 
     onCreate() {
-        this.model = BABYLON.MeshBuilder.CreateBox(this.name, {width: 1}, this.scene.core);
-        this.model.parent = this;
+        BABYLON.SceneLoader.ImportMesh('', './assets/', this.modelName, this.scene.core,
+        (newMeshes, particleSystems, skeletons) => {
+            this.meshes = newMeshes;
+
+            this.meshes.forEach(mesh => {
+                mesh.parent = this;
+                mesh.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
+            });
+        });
     }
 
     onUpdate() {
-        this.position.x = 10 * Math.sin(this.timer);
-        
-        this.timer += 0.01;
-
-        console.log(this.position.x);
     }
 }

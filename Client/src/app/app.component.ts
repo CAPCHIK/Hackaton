@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera } from 'babylonjs';
 import { CarryScene } from './game/scenes/CarryScene';
+import 'babylonjs-materials';
 
 @Component({
   selector: 'app-root',
@@ -20,9 +21,9 @@ export class AppComponent implements OnInit {
     const scene = new Scene(engine);
     scene.debugLayer.show();
 
-    //TODO: make scene selection
+    // TODO: make scene selection
     const currentScene = new CarryScene(scene);
-    
+
     currentScene.onStart();
 
     engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
