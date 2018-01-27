@@ -2,40 +2,25 @@ import { GameUnit } from '../bases/GameUnit';
 import { Treasure } from './Treasure';
 import { GameScene } from '../bases/GameScene';
 import { Vector3, Engine, AbstractMesh } from 'babylonjs-materials';
+import { ResourceManager, Model } from '../stuff/ResourceManager';
 
 export class Mob extends GameUnit {
-    static knucklesMeshes: BABYLON.AbstractMesh[] = null;
-
     private target: GameUnit;
-    private meshes: BABYLON.AbstractMesh[];
 
     constructor(scene: GameScene, name: string) {
         super(scene, name);
-
-        if (Mob.knucklesMeshes == null) {
-            BABYLON.SceneLoader.ImportMesh('', './assets/', 'knuckles.babylon', this.scene.core,
-                (newMeshes, particleSystems, skeletons) => {
-                    Mob.knucklesMeshes = newMeshes;
-
-                    Mob.knucklesMeshes.forEach(mesh => {
-                        mesh.isVisible = false;
-                        BABYLON.Tags.AddTagsTo(mesh, 'enemy');
-                    });
-                });
-        }
     }
 
     onCreate() {
-        if (Mob.knucklesMeshes == null) {
-            return;
-        }
+        this.scene.resourceManager.load('knuckles', (model: Model) => {
+            if (model == null || model.meshes == null) {
+                return;
+            }
 
-        this.meshes = new Array < AbstractMesh>();
-
-        Mob.knucklesMeshes.forEach(mesh => {
-            const newMesh = mesh.clone('mob_model', this, false);
-            newMesh.isVisible = true;
-            this.meshes.push(newMesh);
+            model.meshes.forEach(mesh => {
+                const newMesh = mesh.clone(this.name + '_mesh', this);
+                newMesh.isVisible = true;
+            });
         });
     }
 

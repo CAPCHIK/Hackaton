@@ -6,6 +6,7 @@ import 'babylonjs-materials';
 import { Treasure } from '../units/Treasure';
 import { SpawnPoint } from '../units/SpawnPoint';
 import { Weapon } from '../units/Weapon';
+import { ResourceManager } from '../stuff/ResourceManager';
 
 export class CarryScene extends GameScene {
     private timer = 0;
@@ -21,17 +22,22 @@ export class CarryScene extends GameScene {
     onStart() {
         this.createEnvironment();
 
-        this.tower = new StaticObject(this, 'tower', 'tower_1.babylon');
+        this.resourceManager = new ResourceManager(this.core);
+
+        this.resourceManager.bind('tower', 'tower_1.babylon', 'tower_1_diffuse.png');
+        this.resourceManager.bind('terrain', 'terrain.babylon', 'terrain.png');
+        this.resourceManager.bind('knuckles', 'knuckles.babylon');
+        this.resourceManager.bind('bitcoin', 'bitcoin.babylon');
+
+        this.tower = new StaticObject(this, 'tower', 'tower');
         this.spawnUnit(this.tower);
-        this.tower.material.baseTexture = new BABYLON.Texture("./assets/tower_1_diffuse.png", this.core);
-        this.tower.position = new BABYLON.Vector3(10, 0, -10);
+        this.tower.position = new BABYLON.Vector3(20, 0, -10);
+
+        this.terrain = new StaticObject(this, 'terrain', 'terrain');
+        this.spawnUnit(this.terrain);
 
         this.player = new Player(this, 'player');
         this.spawnUnit(this.player);
-
-        this.terrain = new StaticObject(this, 'terrain', 'terrain.babylon');
-        this.spawnUnit(this.terrain);
-        this.terrain.material.baseTexture = new BABYLON.Texture("./assets/5.png", this.core);
 
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);

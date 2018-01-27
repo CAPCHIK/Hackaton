@@ -12,6 +12,7 @@ import { StaticObject } from '../units/StaticObject';
 import { Tower } from '../units/Tower';
 import { Treasure } from '../units/Treasure';
 import { Weapon } from '../units/Weapon';
+import { ResourceManager } from '../stuff/ResourceManager';
 
 class SerializationHelper {
     static toInstance<T>(obj: T, json: string): T {
@@ -31,8 +32,10 @@ class SerializationHelper {
 
 export abstract class GameScene {
     readonly core: BABYLON.Scene;
-    public socketService: SocketIoService;
     protected units: Map<string, GameUnit>;
+
+    public socketService: SocketIoService;
+    public resourceManager: ResourceManager;
 
     public constructor(core: BABYLON.Scene, socket: SocketIoService) {
         this.core = core;

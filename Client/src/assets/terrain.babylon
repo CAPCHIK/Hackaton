@@ -1,8 +1,7 @@
 {"producer":{"name":"Blender","version":"2.79 (sub 0)","exporter_version":"5.5.0","file":"terrain.babylon"},
 "autoClear":true,"clearColor":[0.0509,0.0509,0.0509],"ambientColor":[0,0,0],"gravity":[0,-9.81,0],
 "materials":[{"name":"terrain.Material_45","id":"terrain.Material_45","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0.249,0.249,0.249],"emissive":[0,0,0],"specularPower":102,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":false,"maxSimultaneousLights":4, 
-"diffuseTexture":{"name":"5.png","level":1,"hasAlpha":1,"coordinatesMode":0,"uOffset":0,"vOffset":0,"uScale":1,"vScale":1,"uAng":0,"vAng":0,"wAng":0,"wrapU":1,"wrapV":1,"coordinatesIndex":0}, 
-"specularTexture":{"name":"7.png","level":1,"hasAlpha":1,"coordinatesMode":0,"uOffset":0,"vOffset":0,"uScale":1,"vScale":1,"uAng":0,"vAng":0,"wAng":0,"wrapU":1,"wrapV":1,"coordinatesIndex":0}}],
+"diffuseTexture":{"name":"terrain.png","level":1,"hasAlpha":1,"coordinatesMode":0,"uOffset":0,"vOffset":0,"uScale":1,"vScale":1,"uAng":0,"vAng":0,"wAng":0,"wrapU":1,"wrapV":1,"coordinatesIndex":0}}],
 "multiMaterials":[],
 "skeletons":[],
 "meshes":[{"name":"root","id":"root","materialId":"terrain.Material_45","billboardMode":0,"position":[0.0002,-43.8141,-52.1538],"rotation":[-1.5708,0,0],"scaling":[22.2151,22.2151,22.2151],"isVisible":true,"freezeWorldMatrix":false,"isEnabled":true,"checkCollisions":false,"receiveShadows":false,"tags":""
