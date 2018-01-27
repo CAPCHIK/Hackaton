@@ -50,9 +50,20 @@ export class CarryScene extends GameScene {
         vrHelper.webVRCamera.onControllersAttachedObservable.add(
             evData => {
                 const lCube = MeshBuilder.CreateBox('left hand', { size: 0.01 });
+                const dCube = MeshBuilder.CreateBox('left hand debug', { size: 0.01 });
+                dCube.parent = lCube;
+                dCube.position.z -= 0.3;
                 vrHelper.webVRCamera.leftController.attachToMesh(lCube);
                 const weapon = new Weapon(this, 'leftBanana', lCube);
                 this.spawnUnit(weapon);
+                let val = 0;
+                vrHelper.webVRCamera.leftController.onTriggerStateChangedObservable.add(evdata => {
+                    val += evdata.value;
+                    if (val > 0.8) {
+                        weapon.shoot();
+                        val = 0;
+                    }
+                });
             });
     }
 

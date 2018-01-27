@@ -31,7 +31,11 @@ export class Weapon extends GameUnit {
     }
 
     public shoot(): void {
-
-
+        console.log('SHOOT');
+        const ray = new BABYLON.Ray(this.baseMesh.absolutePosition, this.baseMesh.absolutePosition.add(new Vector3(0, 0, -1)), 100);
+        const hit = this.scene.core.pickWithRay(ray, (M) => M.name.indexOf('node_id') !== -1);
+        if (hit.hit) {
+            hit.pickedMesh.dispose();
+        }
     }
 }
