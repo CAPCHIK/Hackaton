@@ -1,7 +1,5 @@
-var socket = io('http://localhost');
+var socket = io('http://localhost:4000');
 socket.on('connect', function () { });
-socket.on('event', function (data) { });
-socket.on('disconnect', function () { });
 var ServerCommunication = /** @class */ (function () {
     function ServerCommunication() {
     }
@@ -15,6 +13,7 @@ var ServerCommunication = /** @class */ (function () {
         socket.emit('build_tower', position);
     };
     ServerCommunication.prototype.CarryBuff = function () {
+        console.log("carry_buff invoked");
         socket.emit('carry_buff');
     };
     ServerCommunication.prototype.MoveTreasure = function (position) {
@@ -24,6 +23,8 @@ var ServerCommunication = /** @class */ (function () {
 }());
 var Vector2 = /** @class */ (function () {
     function Vector2() {
+        this.X = 0;
+        this.Y = 0;
     }
     return Vector2;
 }());
