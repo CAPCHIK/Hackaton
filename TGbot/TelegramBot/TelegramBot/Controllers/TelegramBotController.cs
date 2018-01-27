@@ -10,6 +10,7 @@ using Telegram.Bot.Types;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 
 namespace TelegramBot.Controllers
 {
@@ -49,34 +50,44 @@ namespace TelegramBot.Controllers
 
             if (message.Text.StartsWith("Carry"))
             {
-                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Carry. Приятной игры, чувак!;)", replyMarkup: new ReplyKeyboardRemove());
+                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Переход на Яндекс!", "yandex.ru") });
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Carry. Приятной игры, чувак!;)", replyMarkup: inlineKeyboard);
+
             }
 
             if (message.Text.StartsWith("Support"))
             {
-                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Support. Приятной игры, чувак!;)", replyMarkup: new ReplyKeyboardRemove());
+                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Переход на Google !", "google.com") });
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Support. Приятной игры, чувак!;)", replyMarkup: inlineKeyboard);
             }
 
             if (message.Text.StartsWith("/help"))
             {
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "1. /game - начать игру.\n2. /help - показать список команд");
             }
+
+            if (message.Text.StartsWith("/start"))
+            {
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Привет чуваааак! Ты зашел к MemDefenseBot. Чтобы начать играть в самую А%@$&*Ю игру начеркай мне /game и наслаждайся игрой мазафака!))");
+            }
             return Ok();
 
         }
-
-        //private async Task SendMessage(long clientId, string messageText, IReplyMarkup markup = null)
-        //{
-        //    if (messageId == null)
-        //    {
-        //        var m = await telegramBotClient.SendTextMessageAsync(clientId, messageText, replyMarkup: markup);
-        //        messageId = m.MessageId;
-        //    }
-        //    else
-        //    {
-        //        await telegramBotClient.EditMessageTextAsync(clientId, messageId.Value, messageText, replyMarkup: markup);
-
-        //    }
-        //}
     }
+
+
+
+    //private async Task SendMessage(long clientId, string messageText, IReplyMarkup markup = null)
+    //{
+    //    if (messageId == null)
+    //    {
+    //        var m = await telegramBotClient.SendTextMessageAsync(clientId, messageText, replyMarkup: markup);
+    //        messageId = m.MessageId;
+    //    }
+    //    else
+    //    {
+    //        await telegramBotClient.EditMessageTextAsync(clientId, messageId.Value, messageText, replyMarkup: markup);
+
+    //    }
+    //}
 }
