@@ -23,15 +23,15 @@ export class CarryScene extends GameScene {
 
         this.tower = new StaticObject(this, 'tower', 'tower_1.babylon');
         this.spawnUnit(this.tower);
-        this.tower.material.baseTexture = new BABYLON.Texture("./assets/tower_1_diffuse.png", this.core);
+        this.tower.material.baseTexture = new BABYLON.Texture('./assets/tower_1_diffuse.png', this.core);
         this.tower.position = new BABYLON.Vector3(10, 0, -10);
 
-        this.player = new Player(this, 'player', new Vector3(10, 7, -10));
+        this.player = new Player(this, 'player', new Vector3(5, 2, -10));
         this.spawnUnit(this.player);
 
         this.terrain = new StaticObject(this, 'terrain', 'terrain.babylon');
         this.spawnUnit(this.terrain);
-        this.terrain.material.baseTexture = new BABYLON.Texture("./assets/5.png", this.core);
+        this.terrain.material.baseTexture = new BABYLON.Texture('./assets/5.png', this.core);
 
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
