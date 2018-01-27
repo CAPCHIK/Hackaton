@@ -5,7 +5,7 @@ const server: http.Server = http.createServer((req, res) => {
     res.end("For replication");
 });
 
-server.listen(4000);
+server.listen(80);
 
 const io: SocketIO.Server = sockio(server);
 

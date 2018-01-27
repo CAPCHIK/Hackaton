@@ -3,9 +3,11 @@ import * as io from 'socket.io-client';
 
 @Injectable()
 export class SocketIoService {
-    connection: any;
+    connection: SocketIOClient.Socket;
 
     constructor() {
-        this.connection = io('http://localhost:4000');
+        this.connection = io('https://scenereplica.azurewebsites.net');
+        this.connection.on('carry_buff',
+            () => console.log('AZAZAZAZ'));
     }
 }
