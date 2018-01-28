@@ -25,7 +25,22 @@ export class CarryScene extends GameScene {
     private gunCreated = false;
 
     onStart() {
-        this.createEnvironment();
+        const light1 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
+        light1.position = new BABYLON.Vector3(50, 50, 50);
+
+        const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
+
+        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, light1);
+        this.shadowGenerator.useExponentialShadowMap = true;
+        this.shadowGenerator.forceBackFacesOnly = true;
+
+        const skyMaterial = new BABYLON.SkyMaterial('skyMaterial', this.core);
+        skyMaterial.backFaceCulling = false;
+        skyMaterial.useSunPosition = true;
+        skyMaterial.sunPosition = new BABYLON.Vector3(100, 100, 100);
+
+        const skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.core);
+        skybox.material = skyMaterial;
 
         this.resourceManager = new ResourceManager(this);
 
@@ -45,6 +60,7 @@ export class CarryScene extends GameScene {
 
         this.player = new Player(this, 'player', new Vector3(5, 2, -10));
         this.spawnUnit(this.player);
+        light1.parent = this.player;
 
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
@@ -63,6 +79,7 @@ export class CarryScene extends GameScene {
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
         });
+        this.player.parent = vrHelper.webVRCamera;
 
         vrHelper.webVRCamera.onControllersAttachedObservable.add(evData => {
             if (this.gunCreated === false) {
@@ -111,25 +128,5 @@ export class CarryScene extends GameScene {
 
     onResize() {
 
-    }
-
-    // Stuff
-    createEnvironment() {
-        const light1 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
-        light1.position = new BABYLON.Vector3(50, 50, 50);
-
-        const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
-
-        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, light1);
-        this.shadowGenerator.useExponentialShadowMap = true;
-        this.shadowGenerator.forceBackFacesOnly = true;
-
-        const skyMaterial = new BABYLON.SkyMaterial('skyMaterial', this.core);
-        skyMaterial.backFaceCulling = false;
-        skyMaterial.useSunPosition = true;
-        skyMaterial.sunPosition = new BABYLON.Vector3(100, 100, 100);
-
-        const skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.core);
-        skybox.material = skyMaterial;
     }
 }

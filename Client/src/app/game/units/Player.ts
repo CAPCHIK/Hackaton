@@ -11,7 +11,7 @@ export class Player extends GameUnit {
 
     onCreate() {
         this.camera = new BABYLON.FreeCamera('camera', this.startPosition, this.scene.core);
-        this.camera.parent = this;
+        this.parent = this.camera;
         this.camera.attachControl(this.scene.core.getEngine().getRenderingCanvas(), true);
     }
 
