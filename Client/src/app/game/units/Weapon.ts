@@ -127,16 +127,22 @@ export class Weapon extends GameUnit {
             f();
 
             this.scene.deleteUnit(hit.pickedMesh.parent as GameUnit);
-        }/* else {
-            const nextHit = this.scene.core.pickWithRay(ray, (M) => Tags.MatchesQuery(M, '!banana'));
-            if (nextHit.hit) {
-                // const sp = MeshBuilder.CreateSphere('hit_sphere', {segments: 15, diameter: 0.1}, this.scene.core);
-                // sp.position = nextHit.pickedPoint;
-                // cnst mat = new CustomMaterial('customMaterial', this.scene.core);
-                // mat.diffuseColor = Color3.Red();
-                // sp.material = mat;
-            }
-        }*/
+        } else {
+            const lines = BABYLON.MeshBuilder.CreateLines('lines', {
+                points: [ray.origin, ray.origin.add(ray.direction.scale(1000.0))],
+                updatable: true, instance: null
+            }, this.scene.core);
+
+            const f = () => {
+                if (lines.material.alpha > 0.1) {
+                    lines.material.alpha -= 0.1;
+                    setTimeout(f, 10);
+                } else {
+                    lines.dispose();
+                }
+            };
+            f();
+        }
     }
 
     getSyncData() {
