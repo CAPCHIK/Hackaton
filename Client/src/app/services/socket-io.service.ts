@@ -4,11 +4,17 @@ import { Subscriber } from 'rxjs/Subscriber';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { Vector2 } from 'babylonjs-materials';
+import { GameScene } from '../game/bases/GameScene';
+import { setInterval } from 'timers';
+import { Player } from '../game/units/Player';
+import { Mob } from '../game/units/Mob';
+import { Loot } from '../game/units/Loot';
+import { Treasure } from '../game/units/Treasure';
 
 @Injectable()
 export class SocketIoService {
-    connection: SocketIOClient.Socket;
-
+    private connection: SocketIOClient.Socket;
+    private scene: GameScene;
 
     carryBuff: Observable<any>;
     treasureHP: Observable<any>;
@@ -52,5 +58,23 @@ export class SocketIoService {
         });
         this.moveTreasure = observableBuildTower;
         this.connection.on('move_treasure', data => observerMoveTreasure.next(data));
+    }
+
+    setScene(scene: GameScene) {
+        this.scene = scene;
+        setInterval(() => this.sending(), 200);
+    }
+
+    sending() {
+        let player: Player;
+        let treasure: Treasure;
+        let mobs: Mob[];
+        let loot: Loot[];
+        this.scene.units.forEach(E => {
+            const data = E.getSyncData();
+            if (data.uid === undefined) {
+                return;
+            }
+        });
     }
 }

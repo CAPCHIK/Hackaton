@@ -1,25 +1,31 @@
-const socket = io('http://localhost:4000');
-socket.on('connect', function () { });
+
 
 
 class ServerCommunication {
     public Freeze(position: Vector2): void {
-        socket.emit('freeze', position);
+        this.socket.emit('freeze', position);
     }
     public TreasureHP() {
-        socket.emit('treasure_hp');
+        this.socket.emit('treasure_hp');
     }
     public BuildTower(position: Vector2) {
-        socket.emit('build_tower', position);
+        this.socket.emit('build_tower', position);
     }
 
     public CarryBuff() {
         console.log("carry_buff invoked");
-        socket.emit('carry_buff');
+        this.socket.emit('carry_buff');
     }
 
     public MoveTreasure(position: Vector2) {
-        socket.emit('move_treasure', position);
+        this.socket.emit('move_treasure', position);
+    }
+    moveTreasure: Observable<any>;
+    private socket;
+    constructor() {
+        this.socket = io('http://localhost:4000');
+        this.socket.on('connect', function () { console.log('connected')});
+        this.socket.on('event', )
     }
 }
 
