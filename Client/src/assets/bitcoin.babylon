@@ -1,9 +1,9 @@
 {"producer":{"name":"Blender","version":"2.79 (sub 0)","exporter_version":"5.5.0","file":"bitcoin.babylon"},
 "autoClear":true,"clearColor":[0.0509,0.0509,0.0509],"ambientColor":[0,0,0],"gravity":[0,-9.81,0],
-"materials":[{"name":"bitcoin.Material_47","id":"bitcoin.Material_47","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0,0,0],"emissive":[0,0,0],"specularPower":511,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":false,"maxSimultaneousLights":4},
-{"name":"bitcoin.Material_48","id":"bitcoin.Material_48","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0,0,0],"emissive":[0,0,0],"specularPower":511,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":false,"maxSimultaneousLights":4, 
+"materials":[{"name":"bitcoin.Material_47.001","id":"bitcoin.Material_47.001","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0,0,0],"emissive":[0,0,0],"specularPower":510,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":false,"maxSimultaneousLights":4},
+{"name":"bitcoin.Material_48.001","id":"bitcoin.Material_48.001","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0,0,0],"emissive":[0,0,0],"specularPower":510,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":false,"maxSimultaneousLights":4, 
 "diffuseTexture":{"name":"bitcoin.png","level":1,"hasAlpha":1,"coordinatesMode":0,"uOffset":0,"vOffset":0,"uScale":1,"vScale":1,"uAng":0,"vAng":0,"wAng":0,"wrapU":1,"wrapV":1,"coordinatesIndex":0}}],
-"multiMaterials":[{"name":"bitcoin.Multimaterial#0","id":"bitcoin.Multimaterial#0","materials":["bitcoin.Material_47","bitcoin.Material_48"]}],
+"multiMaterials":[{"name":"bitcoin.Multimaterial#0","id":"bitcoin.Multimaterial#0","materials":["bitcoin.Material_47.001","bitcoin.Material_48.001"]}],
 "skeletons":[],
 "meshes":[{"name":"node_id28","id":"node_id28","materialId":"bitcoin.Multimaterial#0","billboardMode":0,"position":[0.0001,0,-0.0022],"rotation":[-1.5708,0,0],"scaling":[0.1463,0.1463,0.1463],"isVisible":true,"freezeWorldMatrix":false,"isEnabled":true,"checkCollisions":false,"receiveShadows":false,"tags":""
 ,"positions":[7.056,2.1661,3.776,3.372,2.1661,3.57,3.38,2.1661,3.468,0.006,2.1661,-0.541,7.636,2.1661,-0.437,5.352,2.1661,0.944,6.874,2.1661,2.602,6.832,2.1661,2.488,4.188,2.1661,-2.077,4.22,2.1661,-2.173,2.584,2.1661,-7.187,-3.897,2.1661,-7.193,-3.203,2.1661,-7.199,0.316,2.1661,-10.451,2.276,2.1661,-10.453,0.318,2.1661,-7.249,-0.757,2.1661,-4.873

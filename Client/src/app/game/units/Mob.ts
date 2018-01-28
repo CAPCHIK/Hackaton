@@ -90,7 +90,7 @@ export class Mob extends GameUnit {
         direction = direction.normalize();
 
         this.position = this.position.add(direction.scale(0.01 * this.scene.core.getEngine().getDeltaTime()));
-        this.position.y = 0.8; // + Math.sin(new Date().getTime() * 0.000001);
+        this.position.y = 0.9 + 0.4 * Math.sin(new Date().getTime() * 0.01 + this.uid);
 
         const targetPosition = this.target.position.clone();
         targetPosition.y = this.position.y;

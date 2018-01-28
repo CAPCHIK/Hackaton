@@ -31,7 +31,7 @@ export class SpawnPoint extends GameUnit {
             this.mobs.set(this.currentMob, mob);
             mob.setTarget(this.treasure);
 
-            this.timer = 0;
+            this.timer = 1.5 * (this.uid % 100) / 100;
         }
     }
 

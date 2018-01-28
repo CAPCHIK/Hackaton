@@ -71,7 +71,7 @@ export class CarryScene extends GameScene {
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
 
-        for (let i = 0; i < 5; ++i) {
+        for (let i = 0; i < 6; ++i) {
             this.spawnPoints[i] = new SpawnPoint(this, 'spawn_point', this.treasure);
             this.spawnUnit(this.spawnPoints[i]);
         }
@@ -139,7 +139,7 @@ export class CarryScene extends GameScene {
     onUpdate() {
         if (this.timer > 2) {
             for (let i = 0; i < this.spawnPoints.length; ++i) {
-                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 100 - 50, 0, Math.random() * 100 - 50);
+                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 200 - 100, 0, Math.random() * 200 - 100);
             }
         }
 

@@ -39,6 +39,10 @@ export class Treasure extends GameUnit {
     }
 
     private RenderHp() {
+        if (this.hpMaterial == null) {
+            return;
+        }
+
         if (this.hpIndicator) {
             this.hpIndicator.dispose();
         }
