@@ -6,6 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import { Vector2 } from 'babylonjs-materials';
 import { GameScene } from '../game/bases/GameScene';
 import { setInterval } from 'timers';
+import { Player } from '../game/units/Player';
+import { Mob } from '../game/units/Mob';
+import { Loot } from '../game/units/Loot';
+import { Treasure } from '../game/units/Treasure';
 
 @Injectable()
 export class SocketIoService {
@@ -57,11 +61,20 @@ export class SocketIoService {
     }
 
     setScene(scene: GameScene) {
-        this.scene  = scene;
+        this.scene = scene;
         setInterval(() => this.sending(), 200);
     }
 
     sending() {
-        this.scene.
+        let player: Player;
+        let treasure: Treasure;
+        let mobs: Mob[];
+        let loot: Loot[];
+        this.scene.units.forEach(E => {
+            const data = E.getSyncData();
+            if (data.uid === undefined) {
+                return;
+            }
+        });
     }
 }

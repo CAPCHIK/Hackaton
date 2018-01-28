@@ -15,7 +15,7 @@ import { ResourceManager } from '../stuff/ResourceManager';
 
 export abstract class GameScene {
     readonly core: BABYLON.Scene;
-    protected units: Map<string, GameUnit>;
+    public units: Map<string, GameUnit>;
     public resourceManager: ResourceManager;
     public shadowGenerator: BABYLON.ShadowGenerator;
 
