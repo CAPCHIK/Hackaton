@@ -20,15 +20,26 @@
 		}
 	});
 
-	console.log(funHackManager);
-	funHackManager.treasureUpdate = function (data) {
-		console.log(data);
-	}
-	funHackManager.onPlayerUpdate = function (data) {
-		console.log('PLAYER');
-		console.log(data);
-	}
 
+	var id = 0;
+	funHackManager.mobsmobsUpdate = function (data) {
+		data.forEach(element => {
+			if (element.uid > id) {
+				switch (element.mobType) {
+					case 0:
+						var knukcles = document.getElementById("knukcles");
+
+						break;
+					case 1:
+						var nyan = document.getElementById("nyan");
+						break;
+					case 2:
+						var pepe = document.getElementById("pepe");
+						break;
+				}
+			}
+		});
+	}
 
 	function CarryBuffPress() {
 		funHackManager.CarryBuff();
@@ -82,22 +93,25 @@
 
 		<a-marker preset="hiro">
 			<!--<a-plane src="#groundTexture" rotation="-90 0 0" width="15" height="15"></a-plane>1-->
+			<a-sphere id="bitcoin" color="yellow" radius="0.01" position: "0 1 0"></a-sphere>
 
-			<a-obj-model src="#Island-obj" mtl="#Island-mtl" position: "0 1 0" rotation="0 0 0" scale="20 20 20" visible="true" obj-model=""
-			 cursor-listener=""></a-obj-model>
+			<a-obj-model id="island" src="#Island-obj" mtl="#Island-mtl" position: "0 1 0" rotation="0 0 0" scale="20 20 20" visible="true"
+			 obj-model="" cursor-listener=""></a-obj-model>
 			<a-obj-model src="#zd-obj" mtl="#zd-mtl" position: "0 0 0" rotation="-90 90 90" scale="0.01 0.01 0.01" visible="true"></a-obj-model>
-			<a-obj-model src="#boss-witness-obj" mtl="#boss-witness-mtl" position: "0 0 0" visible="true"></a-obj-model>
+
+			<a-obj-model id="player" src="#boss-witness-obj" mtl="#boss-witness-mtl" position: "0 0 0" visible="true"></a-obj-model>
 			<a-obj-model src="#warrior_blackbird-obj" mtl="#warrior_blackbird-mtl" position: "0 0 0" visible="true"></a-obj-model>
 			<a-obj-model src="#warrior_bomber-obj" mtl="#warrior_bomber-mtl" position: "0 0 0" visible="true"></a-obj-model>
-			<a-entity id="plane" cursor-listener geometry="primitive: plane" material="color: blue" position="0 1 0" rotation="-90 0 0"
+
+			<!--<a-entity id="plane" cursor-listener geometry="primitive: plane" material="color: blue" position="0 1 0" rotation="-90 0 0"
 			 width="2" height="2"></a-entity>
-			<!--<a-light type="ambient" color="#445451"></a-light>
+			<a-light type="ambient" color="#445451"></a-light>
 			<a-light type="point" intensity="1" position="2 100 4"></a-light>!-->
 
 		</a-marker>
 		<a-entity camera>
 			<a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.007"
-			 material="color: black; shader: flat">
+			 material="color: black; shader: flat" id="marker">
 			</a-entity>
 		</a-entity>
 	</a-scene>
@@ -106,6 +120,57 @@
 	<button onclick="FreezePress();" style='z-index:11000; position: absolute; top: 125px; left: 15px; width: 32px; height: 32px'>FR</button>
 	<button onclick="BuildTowePress();" style='z-index:11000; position: absolute; top: 175px; left: 15px; width: 32px; height: 32px'>BT</button>
 	<button onclick="MoveTreasurePress();" style='z-index:11000; position: absolute; top: 225px; left: 15px; width: 32px; height: 32px'>MT</button>
+
 </body>
+<script>
+	var sceneEl = document.querySelector('a-marker');
+	funHackManager.treasureUpdate = function (data) {
+		//var bitc = document.getElementById("bitcoin");
+		//bitc.setAttribute('position', data.position)
+		//console.log(data);
+	}
+
+	funHackManager.mobsUpdate = function (mobs) {
+		console.log(mobs);
+		mobs.forEach(function (mob) {
+			var now = document.getElementById(mob.uid);
+			if (now) {
+				console.log(now.getAttribute("position") + 'delete');
+				sceneEl.removeChild(now);
+			}
+			console.log('creating');
+			newEl = document.createElement('a-box');
+			newEl.setAttribute('id', mob.uid);
+			newEl.setAttribute('color', 'red');
+			newEl.setAttribute('scale', '0.1 0.1 0.1');
+			newEl.setAttribute('visible', 'true');
+			var x = mob.position.x / 10;
+			var y = mob.position.y;
+			var z = mob.position.z / 10;
+			newEl.setAttribute('position', x + ' ' + y + ' ' + z);
+			console.log(newEl.getAttribute("position") + 'created');
+			sceneEl.appendChild(newEl);
+		});
+	}
+
+	funHackManager.onPlayerUpdate = function (data) {
+		//var player = document.getElementById("player");
+		//player.setAttribute('position', data.position)
+		//player.setAttribute('rotation', { x: -90, y: data.rotation, z: 90 })
+		//console.log('PLAYER');
+		//console.log(data);
+	}
+
+
+	document.addEventListener('keyup', function (e) {
+		if (e.keyCode !== 32) return;
+
+		var newEl = document.createElement('a-box');
+		newEl.setAttribute('color', 'red');
+		sceneEl.appendChild(newEl);
+		position = '0 1 2'
+		newEl.setAttribute('position', position);
+	});
+</script>
 
 </html>
