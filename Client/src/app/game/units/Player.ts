@@ -23,7 +23,7 @@ export class Player extends GameUnit {
         return {
             unitType: 'Player',
             uid: this.uid,
-            position: this.position,
+            position: this.absolutePosition,
             rotationY: this.rotation.y
         };
     }
