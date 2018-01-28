@@ -2,6 +2,7 @@ import { TransformNode } from 'babylonjs';
 import { GameScene } from './GameScene';
 
 export abstract class GameUnit extends TransformNode {
+    static currentUid = 0;
 
     readonly uid: number = -1;
     readonly name: string;
@@ -13,6 +14,7 @@ export abstract class GameUnit extends TransformNode {
         super(name);
         this.maxHp = _hp;
         this.name = name;
+        this.uid = GameUnit.currentUid++;
     }
 
     onCreate() { }
