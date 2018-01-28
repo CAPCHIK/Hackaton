@@ -17,6 +17,8 @@ export class StaticObject extends GameUnit {
             model.meshes.forEach(mesh => {
                 const newMesh = mesh.clone(this.name + '_mesh', this, false);
                 newMesh.isVisible = true;
+
+                newMesh.receiveShadows = true;
             });
         });
     }
@@ -25,6 +27,6 @@ export class StaticObject extends GameUnit {
     }
 
     getSyncData() {
-        return {};   
+        return {};
     }
 }

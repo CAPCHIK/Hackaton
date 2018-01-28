@@ -21,6 +21,7 @@ export class Player extends GameUnit {
 
     getSyncData() {
         return {
+            unitType: 'Player',
             uid: this.uid,
             position: this.position,
             rotationY: this.rotation.y

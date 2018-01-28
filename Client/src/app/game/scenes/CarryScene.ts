@@ -27,7 +27,7 @@ export class CarryScene extends GameScene {
     onStart() {
         this.createEnvironment();
 
-        this.resourceManager = new ResourceManager(this.core);
+        this.resourceManager = new ResourceManager(this);
 
         this.resourceManager.bind('tower', 'tower_1.babylon', 'tower_1_diffuse.png');
         this.resourceManager.bind('terrain', 'terrain.babylon', 'terrain.png');
@@ -113,11 +113,16 @@ export class CarryScene extends GameScene {
 
     }
 
-
     // Stuff
     createEnvironment() {
-        const light = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
+        const light1 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
+        light1.position = new BABYLON.Vector3(50, 50, 50);
+
         const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
+
+        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, light1);
+        this.shadowGenerator.useExponentialShadowMap = true;
+        this.shadowGenerator.forceBackFacesOnly = true;
 
         const skyMaterial = new BABYLON.SkyMaterial('skyMaterial', this.core);
         skyMaterial.backFaceCulling = false;
@@ -126,6 +131,5 @@ export class CarryScene extends GameScene {
 
         const skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.core);
         skybox.material = skyMaterial;
-
     }
 }

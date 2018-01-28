@@ -25,7 +25,6 @@ export abstract class GameUnit extends TransformNode {
 
     onUpdate() { }
 
-
     applyDamage(damage: number) {
         this._hp -= damage;
         if (this._hp <= 0) {

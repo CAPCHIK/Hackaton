@@ -20,6 +20,7 @@ export class Treasure extends GameUnit {
             model.meshes.forEach(mesh => {
                 const newMesh = mesh.clone(this.name + '_mesh', this);
                 newMesh.isVisible = true;
+                this.scene.shadowGenerator.getShadowMap().renderList.push(newMesh);
             });
 
             const customMaterial = new CustomMaterial('bitcointhp', this.scene.core);
@@ -52,6 +53,7 @@ export class Treasure extends GameUnit {
 
     getSyncData() {
         return {
+            unitType: 'Treasure',
             uid: this.uid,
             position: this.position,
             hp: this.hp,

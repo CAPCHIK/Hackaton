@@ -23,6 +23,7 @@ export class Loot extends GameUnit {
 
     getSyncData() {
         return {
+            unitType: 'Loot',
             uid: this.uid,
             position: this.position,
             type: this.type,

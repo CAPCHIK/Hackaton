@@ -15,13 +15,13 @@ import { ResourceManager } from '../stuff/ResourceManager';
 
 export abstract class GameScene {
     readonly core: BABYLON.Scene;
-    protected units: Map<string, GameUnit>;
+    protected units: Map<number, GameUnit>;
     public resourceManager: ResourceManager;
     public shadowGenerator: BABYLON.ShadowGenerator;
 
     public constructor(core: BABYLON.Scene, public socket: SocketIoService) {
         this.core = core;
-        this.units = new Map<string, GameUnit>();
+        this.units = new Map<number, GameUnit>();
     }
 
     abstract onStart(): void;
@@ -44,13 +44,13 @@ export abstract class GameScene {
     }
 
     spawnUnit(unit: GameUnit) {
-        this.units.set(unit.name, unit);
+        this.units.set(unit.uid, unit);
         unit.onCreate();
     }
 
     deleteUnit(unit: GameUnit) {
         unit.onDestroy();
         unit.dispose();
-        this.units.delete(unit.name);
+        this.units.delete(unit.uid);
     }
 }
