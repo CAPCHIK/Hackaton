@@ -20,12 +20,34 @@ class ServerCommunication {
     public MoveTreasure(position: Vector2) {
         this.socket.emit('move_treasure', position);
     }
-    moveTreasure: Observable<any>;
+    public onPlayerUpdate;
+    public lootUpdate;
+    public mobsUpdate;
+    public treasureUpdate;
     private socket;
     constructor() {
         this.socket = io('http://localhost:4000');
         this.socket.on('connect', function () { console.log('connected')});
-        this.socket.on('event', )
+        this.socket.on('playerUpdate', (data) => {
+            if(this.onPlayerUpdate){
+                this.onPlayerUpdate(data);
+            }
+        });
+        this.socket.on('treasureUpdate', (data) => {
+            if(this.treasureUpdate){
+                this.treasureUpdate(data);
+            }
+        });
+        this.socket.on('mobsUpdate', (data) => {
+            if(this.mobsUpdate){
+                this.mobsUpdate(data);
+            }
+        });
+        this.socket.on('lootUpdate', (data) => {
+            if(this.lootUpdate){
+                this.lootUpdate(data);
+            }
+        })
     }
 }
 
