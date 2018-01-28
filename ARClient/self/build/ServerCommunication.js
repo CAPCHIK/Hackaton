@@ -1,31 +1,40 @@
-var socket = io('http://62.109.18.175:4000/');
-socket.on('connect', function () { });
-var ServerCommunication = /** @class */ (function () {
-    function ServerCommunication() {
+
+var funHackManager = {};
+
+var socket = io('http://62.109.18.175:4000');
+
+socket.on('connect', function () { console.log('connected') });
+socket.on('playerUpdate', function (data) {
+    if (funHackManager.onPlayerUpdate) {
+        funHackManager.onPlayerUpdate(data);
     }
-    ServerCommunication.prototype.Freeze = function (position) {
-        socket.emit('freeze', position);
-    };
-    ServerCommunication.prototype.TreasureHP = function () {
-        socket.emit('treasure_hp');
-    };
-    ServerCommunication.prototype.BuildTower = function (position) {
-        socket.emit('build_tower', position);
-    };
-    ServerCommunication.prototype.CarryBuff = function () {
-        console.log("carry_buff invoked");
-        socket.emit('carry_buff');
-    };
-    ServerCommunication.prototype.MoveTreasure = function (position) {
-        socket.emit('move_treasure', position);
-    };
-    return ServerCommunication;
-}());
-var Vector2 = /** @class */ (function () {
-    function Vector2() {
-        this.X = 0;
-        this.Y = 0;
+});
+socket.on('treasureUpdate', function (data) {
+    if (funHackManager.treasureUpdate) {
+        funHackManager.treasureUpdate(data);
     }
-    return Vector2;
-}());
-var funHackManager = new ServerCommunication();
+});
+socket.on('mobsUpdate', (data) => {
+    if (funHackManager.mobsUpdate) {
+        funHackManager.mobsUpdate(data);
+    }
+});
+socket.on('lootUpdate', (data) => {
+    if (funHackManager.lootUpdate) {
+        funHackManager.lootUpdate(data);
+    }
+});
+
+funHackManager.Freeze = function(position){
+    socket.emit('freeze', position);
+}
+funHackManager.TreasureHP= function() {
+    this.socket.emit('treasure_hp');
+}
+funHackManager.BuildTower= function(position) {
+    this.socket.emit('build_tower', position);
+}
+funHackManager.CarryBuff= function() {
+    console.log("carry_buff invoked");
+    this.socket.emit('carry_buff');
+}
