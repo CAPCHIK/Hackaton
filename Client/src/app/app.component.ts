@@ -20,7 +20,9 @@ export class AppComponent implements OnInit {
         const engine = new Engine(canvas, true);
 
         const scene = new Scene(engine);
-        scene.debugLayer.show();
+        // scene.debugLayer.show();
+
+        engine.enableOfflineSupport = false;
 
         const currentScene = new CarryScene(scene, this.socket);
         this.socket.setScene(currentScene);

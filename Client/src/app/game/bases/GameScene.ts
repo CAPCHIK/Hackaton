@@ -3,6 +3,7 @@ import { ShadowGenerator } from 'babylonjs';
 import * as io from 'socket.io-client';
 import { SocketIoService } from '../../services/socket-io.service';
 import * as ts from 'typescript';
+import 'babylonjs-gui';
 
 import { Loot } from '../units/Loot';
 import { Mob } from '../units/Mob';
@@ -20,6 +21,7 @@ export abstract class GameScene {
     public resourceManager: ResourceManager;
     public shadowGenerator: BABYLON.ShadowGenerator;
     public mainCamera: BABYLON.FreeCamera;
+    public advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI('ui');
 
     public constructor(core: BABYLON.Scene, public socket: SocketIoService) {
         this.core = core;

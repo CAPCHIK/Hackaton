@@ -32,7 +32,7 @@ export class Treasure extends GameUnit {
     }
 
     onUpdate() {
-        this.rotate(BABYLON.Vector3.Up(), 0.000000000000007 * new Date().getTime());
+        this.rotation.y += this.scene.core.getEngine().getDeltaTime() * 0.001;
     }
     onDamageApplied(): void {
         this.RenderHp();

@@ -28,6 +28,7 @@ export class CarryScene extends GameScene {
 
     private rightTriggerPressed = false;
     private leftTriggerPressed = false;
+    private teleportButtonPressed = false;
     private gunCreated = false;
 
     private startPosition = new BABYLON.Vector3(5, 4, -10);
@@ -58,6 +59,7 @@ export class CarryScene extends GameScene {
         this.resourceManager.bind('nyan', 'nyan.babylon');
         this.resourceManager.bind('bitcoin', 'bitcoin.babylon');
         this.resourceManager.bind('banana', 'banana.babylon');
+        //this.resourceManager.bind('pepe', 'pepe.babylon', );
 
         this.tower = new StaticObject(this, 'tower', 'tower');
         this.spawnUnit(this.tower);
@@ -84,10 +86,13 @@ export class CarryScene extends GameScene {
 
 
         //
-        const tp = new Teleport(this, 'first_tp',  new BABYLON.Vector3(8, 0, -1));
-        this.spawnUnit(tp);
+        const teleportCount = 3;
+        for (let i = 0; i < 3; ++i) {
+            const angle = Math.PI * 2 * i / teleportCount;
 
-
+            const tp = new Teleport(this, 'first_tp', (new BABYLON.Vector3(Math.cos(angle), 0, Math.sin(angle)).scale(25)));
+            this.spawnUnit(tp);
+        }
 
         // create vr
         const vrHelper = this.core.createDefaultVRExperience({
@@ -104,14 +109,14 @@ export class CarryScene extends GameScene {
                 cubeRight.isVisible = false;
 
                 vrHelper.webVRCamera.rightController.attachToMesh(cubeRight);
-                this.weaponRight = new Weapon(this, 'banana1', cubeRight);
+                this.weaponRight = new Weapon(this, 'banana1', cubeRight, this.player);
                 this.spawnUnit(this.weaponRight);
 
                 const cubeleft = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
                 cubeleft.isVisible = false;
 
                 vrHelper.webVRCamera.leftController.attachToMesh(cubeleft);
-                this.weaponLeft = new Weapon(this, 'banana2', cubeleft);
+                this.weaponLeft = new Weapon(this, 'banana2', cubeleft, this.player);
                 this.spawnUnit(this.weaponLeft);
 
                 this.gunCreated = true;
@@ -125,6 +130,7 @@ export class CarryScene extends GameScene {
                     this.rightTriggerPressed = false;
                 }
             });
+
             vrHelper.webVRCamera.leftController.onTriggerStateChangedObservable.add(evdata => {
                 if (evdata.pressed && !this.leftTriggerPressed) {
                     this.weaponLeft.shoot();
@@ -134,9 +140,14 @@ export class CarryScene extends GameScene {
                 }
             });
 
-
-            vrHelper.webVRCamera.rightController.onSecondaryButtonStateChangedObservable.add(data => {
-                console.log(data.pressed);
+            vrHelper.webVRCamera.rightController.onMainButtonStateChangedObservable.add(evdata => {
+                if (evdata.pressed && !this.teleportButtonPressed) {
+                    this.weaponRight.enableTeleport();
+                    this.teleportButtonPressed = true;
+                } else if (!evdata.pressed && this.teleportButtonPressed) {
+                    this.weaponRight.makeTeleport();
+                    this.teleportButtonPressed = false;
+                }
             });
         });
     }
@@ -152,11 +163,11 @@ export class CarryScene extends GameScene {
     onUpdate() {
         if (this.timer > 2) {
             for (let i = 0; i < this.spawnPoints.length; ++i) {
-                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 200 - 100, 0, Math.random() * 200 - 100);
+                this.spawnPoints[i].position.copyFrom(new BABYLON.Vector3(Math.random() * 200 - 100, 0, Math.random() * 200 - 100));
             }
         }
 
-        this.timer += 0.1;
+        this.timer += 0.01 * this.core.getEngine().getDeltaTime();
     }
 
     onDraw() {

@@ -1,5 +1,5 @@
 import { GameUnit } from '../bases/GameUnit';
-import { Debug, float } from 'babylonjs';
+import { Debug, float, Tags } from 'babylonjs';
 import { GameScene } from '../bases/GameScene';
 import { Model } from '../stuff/ResourceManager';
 
@@ -17,6 +17,8 @@ export class StaticObject extends GameUnit {
             model.meshes.forEach(mesh => {
                 const newMesh = mesh.clone(this.name + '_mesh', this, false);
                 newMesh.isVisible = true;
+
+                Tags.AddTagsTo(mesh, 'static_object');
 
                 this.scene.shadowGenerator.getShadowMap().renderList.push(newMesh);
                 newMesh.receiveShadows = true;
