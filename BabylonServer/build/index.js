@@ -12,8 +12,11 @@ io.on("connection", socket => {
     socket.on("freeze", data => socket.broadcast.emit("freeze", data));
     socket.on("treasure_hp", () => socket.broadcast.emit("treasure_hp"));
     socket.on("build_tower", data => socket.broadcast.emit("build_tower", data));
+    socket.on("playerUpdate", data => socket.broadcast.emit("playerUpdate", data));
+    socket.on("treasureUpdate", data => socket.broadcast.emit("treasureUpdate", data));
+    socket.on("mobsUpdate", data => socket.broadcast.emit("mobsUpdate", data));
+    socket.on("lootUpdate", data => socket.broadcast.emit("lootUpdate", data));
     socket.on("carry_buff", () => {
-        console.log('carry buff');
         socket.broadcast.emit("carry_buff");
     });
     socket.on("move_treasure", data => socket.broadcast.emit("move_treasure", data));

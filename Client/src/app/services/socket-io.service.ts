@@ -62,19 +62,37 @@ export class SocketIoService {
 
     setScene(scene: GameScene) {
         this.scene = scene;
-        setInterval(() => this.sending(), 200);
+        setInterval(() => this.sending(), 100);
     }
 
     sending() {
-        let player: Player;
-        let treasure: Treasure;
-        let mobs: Mob[];
-        let loot: Loot[];
+        let player: any;
+        let treasure: any;
+        const mobs = [];
+        const loot = [];
         this.scene.units.forEach(E => {
             const data = E.getSyncData();
             if (data.uid === undefined) {
                 return;
             }
+            switch (data.unitType) {
+                case 'Player':
+                    player = data;
+                    break;
+                case 'Treasure':
+                    treasure = data;
+                    break;
+                case 'Mob':
+                    mobs.push(data);
+                    break;
+                case 'Loot':
+                    loot.push(data);
+                    break;
+            }
         });
+        this.connection.emit('playerUpdate', player);
+        this.connection.emit('treasureUpdate', treasure);
+        this.connection.emit('mobsUpdate', mobs);
+        this.connection.emit('lootUpdate', loot);
     }
 }

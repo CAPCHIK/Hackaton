@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
         scene.debugLayer.show();
 
         const currentScene = new CarryScene(scene, this.socket);
+        this.socket.setScene(currentScene);
 
         currentScene.onStart();
 
