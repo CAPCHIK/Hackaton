@@ -4,11 +4,13 @@ import { Subscriber } from 'rxjs/Subscriber';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { Vector2 } from 'babylonjs-materials';
+import { GameScene } from '../game/bases/GameScene';
+import { setInterval } from 'timers';
 
 @Injectable()
 export class SocketIoService {
-    connection: SocketIOClient.Socket;
-
+    private connection: SocketIOClient.Socket;
+    private scene: GameScene;
 
     carryBuff: Observable<any>;
     treasureHP: Observable<any>;
@@ -52,5 +54,14 @@ export class SocketIoService {
         });
         this.moveTreasure = observableBuildTower;
         this.connection.on('move_treasure', data => observerMoveTreasure.next(data));
+    }
+
+    setScene(scene: GameScene) {
+        this.scene  = scene;
+        setInterval(() => this.sending(), 200);
+    }
+
+    sending() {
+        this.scene.
     }
 }
