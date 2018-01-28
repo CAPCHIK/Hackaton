@@ -23,8 +23,6 @@
     "@types/nconf": "0.0.34",
     "@types/node": "^7.0.21",
     "@types/socket.io": "^1.4.31",
-    "chai": "^3.5.0",
-    "nodemon": "^1.11.0",
     "tslint": "^5.2.0",
     "typescript": "^2.3.2"
   }

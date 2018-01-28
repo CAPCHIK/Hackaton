@@ -33,13 +33,10 @@ class SerializationHelper {
 export abstract class GameScene {
     readonly core: BABYLON.Scene;
     protected units: Map<string, GameUnit>;
-
-    public socketService: SocketIoService;
     public resourceManager: ResourceManager;
 
-    public constructor(core: BABYLON.Scene, socket: SocketIoService) {
+    public constructor(core: BABYLON.Scene, public socket: SocketIoService) {
         this.core = core;
-        this.socketService = socket;
         this.units = new Map<string, GameUnit>();
     }
 

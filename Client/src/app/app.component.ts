@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
 
         engine.runRenderLoop(function () {
             currentScene.preUpdate();
-
             currentScene.onGui();
             currentScene.onUpdate();
             currentScene.onDraw();

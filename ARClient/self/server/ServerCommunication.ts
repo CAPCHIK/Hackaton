@@ -24,8 +24,8 @@ class ServerCommunication {
 }
 
 class Vector2 {
-    public X: number = 0;
-    public Y: number = 0;
+    public x: number = 0;
+    public y: number = 0;
 }
 
 const funHackManager = new ServerCommunication();

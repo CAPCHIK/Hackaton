@@ -53,6 +53,11 @@ export class CarryScene extends GameScene {
             this.spawnUnit(this.spawnPoints[i]);
         }
 
+        //
+        this.socket.freezeMobs.subscribe(vector => {
+        }, error => {
+        });
+
         // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
