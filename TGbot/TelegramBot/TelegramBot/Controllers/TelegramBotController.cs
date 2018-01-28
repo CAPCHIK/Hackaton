@@ -12,6 +12,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 using TelegramBot.Models;
+using System.Data.SqlClient;
 
 namespace TelegramBot.Controllers
 {
@@ -63,12 +64,12 @@ namespace TelegramBot.Controllers
 
                 var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Перекрестись и прыгай в дополненную реальность(AR)", "https://vk.com/away.php?to=https%3A%2F%2Fwebrtcfunhack.azurewebsites.net%2Fself%2Fexamples%2Findex.html&cc_key=") });
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Support. Приятной игры, чувак!;)", replyMarkup: inlineKeyboard);
-                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Но перед этим тебе нужно распечатать эту шнягу, чтобы все хорошо работало. Для этого перейди по следующей ссылке:\n https://vk.com/away.php?to=https%3A%2F%2Fwebrtcfunhack.azurewebsites.net%2Fself%2Fexamples%2Fassets%2Fpictures%2Fextensions%2Fhiro.jpg&cc_key=)");
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Но перед этим тебе нужно распечатать эту шнягу, чтобы все хорошо работало. Для этого перейди по следующей ссылке:\n https://vk.com/away.php?to=https%3A%2F%2Fwebrtcfunhack.azurewebsites.net%2Fself%2Fexamples%2Fassets%2Fpictures%2Fextensions%2Fhiro.jpg&cc_key=");
             }
 
             if (message.Text.StartsWith("/help"))
             {
-                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "1. /game - начать игру.\n2. /help - показать список команд.\n3. /score - вывести таблицу результатовю.\n4./start - начать общение со мной");
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "1. /game - начать игру.\n2. /help - показать список команд.\n3. /topscore - вывести таблицу рекордов.\n4. /start - начать общение со мной");
             }
 
             if (message.Text.StartsWith("/start"))
@@ -89,10 +90,40 @@ namespace TelegramBot.Controllers
                 }
             }
 
+            if (message.Text.StartsWith("/topscore"))
+            {
+                int count = 0;
+                string line = "";
+                dbContext.Players.OrderBy(P => P.Score);
+                var topScores = dbContext.Players.Take(5).Select(P => P.Score);
+                foreach (var score in topScores)
+                {
+                    count++;
+                    line += $"{count}. {score.ToString()}\n";
+                }
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Таблица рекордов:\n" + line);
+            }
+
             if (message.Text.StartsWith("/score"))
             {
+                var id = message.From.Id;
+                dbContext.Players.OrderBy(P => P.Score);
+                var score = dbContext.Players;
 
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Твой результат: " + score.ToString());
             }
+
+            if (!message.Text.StartsWith("/score") &&
+                !message.Text.StartsWith("/topscore") &&
+                !message.Text.StartsWith("/start") &&
+                !message.Text.StartsWith("/help") &&
+                !message.Text.StartsWith("Support") &&
+                !message.Text.StartsWith("Carry") &&
+                !message.Text.StartsWith("/game"))
+            {
+                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Сорри, я фигово учился в бот-школе, поэтому я не все понимаю, что ты мне пишешь. Глянь, что ты мне можешь написать./help");
+            }
+
             return Ok();
         }
     }
