@@ -6,8 +6,9 @@ import { Vector3, Tags, MeshBuilder, CustomMaterial, Color3, AbstractMesh } from
 import { Model } from '../stuff/ResourceManager';
 
 export class Weapon extends GameUnit {
-    private weapon: AbstractMesh;
-
+  private weapon: AbstractMesh;
+  private particleSystem: BABYLON.Particle;
+  public phontain: AbstractMesh;
     constructor(scene: GameScene, name: string, private baseMesh: Mesh) {
         super(scene, name);
     }
@@ -30,10 +31,58 @@ export class Weapon extends GameUnit {
             });
 
             this.weapon = model.meshes[0];
-        });
+      });
+
     }
 
     onUpdate() {
+    }
+
+    initParticle() {
+
+
+      // Create a particle system
+      var particleSystem = new BABYLON.ParticleSystem("particles", 2000, this.scene.core);
+
+      //Texture of each particle
+      particleSystem.particleTexture = new BABYLON.Texture("textures/flare.png", this.scene.core);
+
+      // Where the particles come from
+      // the starting object, the emitter
+      particleSystem.createSphereEmitter(1.2);
+
+      // Colors of all particles
+      particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+      particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+      particleSystem.colorDead = new BABYLON.Color4(0, 0, 0.2, 0.0);
+
+      // Size of each particle (random between...
+      particleSystem.minSize = 0.1;
+      particleSystem.maxSize = 0.5;
+
+      // Life time of each particle (random between...
+      particleSystem.minLifeTime = 0.3;
+      particleSystem.maxLifeTime = 0.8;
+
+      // Emission rate
+      particleSystem.emitRate = 1500;
+
+      // Blend mode : BLENDMODE_ONEONE, or BLENDMODE_STANDARD
+      particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
+
+      // Angular speed, in radians
+      particleSystem.minAngularSpeed = 0;
+      particleSystem.maxAngularSpeed = Math.PI;
+
+      // Speed
+      particleSystem.minEmitPower = 1;
+      particleSystem.maxEmitPower = 20;
+      particleSystem.updateSpeed = 0.005;
+
+      this.phontain = BABYLON.MeshBuilder.CreateSphere("foutain", {
+        diameter: 1
+      }, this.scene.core);
+      this.phontain.isVisible = false;
     }
 
     shoot() {
@@ -50,6 +99,7 @@ export class Weapon extends GameUnit {
         if (hit.hit) {
             console.log(hit.pickedMesh.name);
             this.scene.deleteUnit(hit.pickedMesh.parent as GameUnit);
+             
         }/* else {
             const nextHit = this.scene.core.pickWithRay(ray, (M) => Tags.MatchesQuery(M, '!banana'));
             if (nextHit.hit) {

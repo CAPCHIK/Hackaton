@@ -24,7 +24,8 @@ export class CarryScene extends GameScene {
 
     private weapon: Weapon;
 
-    private triggerPressed = false;
+    private rightTriggerPressed = false;
+    private leftTriggerPressed = false;
     private gunCreated = false;
 
     private startPosition = new BABYLON.Vector3(5, 4, -10);
@@ -89,22 +90,37 @@ export class CarryScene extends GameScene {
             this.player.parent = this.mainCamera;
 
             if (this.gunCreated === false) {
-                const cube = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
+                const cube = MeshBuilder.CreateBox('right_hand', { width: 0.2, depth: 0.1, height: 0.3 });
                 cube.isVisible = false;
 
                 vrHelper.webVRCamera.rightController.attachToMesh(cube);
                 this.weapon = new Weapon(this, 'banana', cube);
                 this.spawnUnit(this.weapon);
 
+                const cubeleft = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
+                cubeleft.isVisible = false;
+
+                vrHelper.webVRCamera.leftController.attachToMesh(cube);
+                this.weapon = new Weapon(this, 'banana2', cubeleft);
+                this.spawnUnit(this.weapon);
+
                 this.gunCreated = true;
             }
 
             vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
-                if (evdata.pressed && !this.triggerPressed) {
+                if (evdata.pressed && !this.rightTriggerPressed) {
                     this.weapon.shoot();
-                    this.triggerPressed = true;
-                } else if (!evdata.pressed && this.triggerPressed) {
-                    this.triggerPressed = false;
+                    this.rightTriggerPressed = true;
+                } else if (!evdata.pressed && this.rightTriggerPressed) {
+                    this.rightTriggerPressed = false;
+                }
+            });
+            vrHelper.webVRCamera.leftController.onTriggerStateChangedObservable.add(evdata => {
+                if (evdata.pressed && !this.leftTriggerPressed) {
+                    this.weapon.shoot();
+                    this.leftTriggerPressed = true;
+                } else if (!evdata.pressed && this.leftTriggerPressed) {
+                    this.leftTriggerPressed = false;
                 }
             });
         });

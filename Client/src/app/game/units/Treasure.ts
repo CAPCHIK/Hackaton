@@ -8,7 +8,7 @@ export class Treasure extends GameUnit {
     private hpIndicator: AbstractMesh;
     private hpMaterial: CustomMaterial;
     constructor(scene: GameScene, name: string) {
-        super(scene, name, 100);
+        super(scene, name, 100000);
     }
 
     onCreate() {
@@ -55,7 +55,7 @@ export class Treasure extends GameUnit {
         return {
             unitType: 'Treasure',
             uid: this.uid,
-            position: this.position,
+            position: this.absolutePosition,
             hp: this.hp,
             maxHp: this.maxHp
         };
