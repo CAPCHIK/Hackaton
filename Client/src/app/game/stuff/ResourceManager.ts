@@ -1,4 +1,5 @@
 import { Material } from 'babylonjs-materials';
+import { GameScene } from '../bases/GameScene';
 
 type Callback = (model: Model) => void;
 
@@ -15,7 +16,7 @@ export class Model {
 export class ResourceManager {
     models: Map<string, Model> = new Map<string, Model>();
 
-    constructor(private core: BABYLON.Scene) {}
+    constructor(private scene: GameScene) {}
 
     bind(name: string, path: string, ...texturePath: string[]) {
         const model = new Model();
@@ -30,7 +31,7 @@ export class ResourceManager {
         const model = this.models.get(name);
 
         if (model != null && model.meshes == null) {
-            BABYLON.SceneLoader.ImportMesh('', './assets/', model.path, this.core,
+            BABYLON.SceneLoader.ImportMesh('', './assets/', model.path, this.scene.core,
             (newMeshes, particleSystems, skeletons) => {
                 model.meshes = newMeshes;
                 model.skeletons = skeletons;
@@ -44,8 +45,8 @@ export class ResourceManager {
                     if (currentMesh >= model.texturePath.length || model.texturePath.length === 0) {
                         //mesh.material = new BABYLON.StandardMaterial(model.name + '_standart_mat' + currentMesh, this.core);
                     } else {
-                        const material = new BABYLON.PBRMetallicRoughnessMaterial(model.name + '_pbr_mat' + currentMesh, this.core);
-                        material.baseTexture = new BABYLON.Texture('./assets/' + model.texturePath[currentMesh], this.core);
+                        const material = new BABYLON.PBRMetallicRoughnessMaterial(model.name + '_pbr_mat' + currentMesh, this.scene.core);
+                        material.baseTexture = new BABYLON.Texture('./assets/' + model.texturePath[currentMesh], this.scene.core);
                         mesh.material = material;
                     }
 

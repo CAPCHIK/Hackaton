@@ -58,6 +58,8 @@ export class Mob extends GameUnit {
 
                         Tags.AddTagsTo(newMesh, 'enemy');
                         newMesh.isVisible = true;
+
+                        this.scene.shadowGenerator.getShadowMap().renderList.push(newMesh);
                     });
                 });
                 break;
@@ -101,6 +103,7 @@ export class Mob extends GameUnit {
 
     getSyncData() {
         return {
+            unitType: 'Mob',
             uid: this.uid,
             mobType: this.mobType,
             position: this.position,
