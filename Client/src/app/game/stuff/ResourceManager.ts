@@ -8,6 +8,7 @@ export class Model {
     texturePath: string[];
 
     meshes: BABYLON.AbstractMesh[];
+    skeletons: BABYLON.Skeleton[];
     materials: BABYLON.Material[];
 }
 
@@ -32,6 +33,7 @@ export class ResourceManager {
             BABYLON.SceneLoader.ImportMesh('', './assets/', model.path, this.core,
             (newMeshes, particleSystems, skeletons) => {
                 model.meshes = newMeshes;
+                model.skeletons = skeletons;
 
                 model.materials = new Array<BABYLON.Material>();
 

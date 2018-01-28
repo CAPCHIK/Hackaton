@@ -42,7 +42,7 @@ export class CarryScene extends GameScene {
         this.terrain = new StaticObject(this, 'terrain', 'terrain');
         this.spawnUnit(this.terrain);
 
-        this.player = new Player(this, 'player', new Vector3(5, 5, -10));
+        this.player = new Player(this, 'player', new Vector3(5, 2, -10));
         this.spawnUnit(this.player);
 
         this.treasure = new Treasure(this, 'treasure');
