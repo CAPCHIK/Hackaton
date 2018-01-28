@@ -17,9 +17,9 @@ export class Teleport extends GameUnit {
         Tags.AddTagsTo(this.floor, 'teleport');
         this.floor.parent = this;
         this.floor.rotate(new Vector3(1, 0, 0), Math.PI / 2);
-        this.position.y += 0.2;
+        this.position.y += 0.3;
         this.cylynder = MeshBuilder.CreateCylinder('Teleport_cylinder_' + this.uid, {height: 8, diameter: 6}, this.scene.core);
-        this.cylynder.position.y += 6;
+        this.cylynder.position.y += 4;
         this.cylynder.parent = this;
         const material = new CustomMaterial('Teleport_material', this.scene.core);
         material.diffuseColor = Color3.Blue();

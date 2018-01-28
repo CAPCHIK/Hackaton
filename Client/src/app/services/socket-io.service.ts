@@ -67,7 +67,7 @@ export class SocketIoService {
 
     setScene(scene: GameScene) {
         this.scene = scene;
-        setInterval(() => this.sending(), 100);
+        setInterval(() => this.sending(), 500);
     }
 
     sending() {
