@@ -5,46 +5,63 @@ import { Vector3, Engine, AbstractMesh } from 'babylonjs-materials';
 import { ResourceManager, Model } from '../stuff/ResourceManager';
 import { Tags } from 'babylonjs';
 
+export enum MobType {
+    Knuckles = 0,
+    Nyan = 1
+}
+
 export class Mob extends GameUnit {
     private target: GameUnit;
 
     private sounds: BABYLON.Sound[];
-    private meshes: BABYLON.AbstractMesh[];
-    private skeletons: BABYLON.Skeleton[];
 
-    constructor(scene: GameScene, name: string) {
+    constructor(scene: GameScene, name: string, private mobType: MobType) {
         super(scene, name);
 
         this.sounds = new Array<BABYLON.Sound>();
-        this.skeletons = new Array<BABYLON.Skeleton>();
-        this.meshes = new Array<BABYLON.AbstractMesh>();
-
-        this.sounds.push(new BABYLON.Sound('deway', './assets/knuckles_dewey.mp3', this.scene.core));
-        this.sounds.push(new BABYLON.Sound('qluck', './assets/knuckles_qlack.mp3', this.scene.core));
     }
 
     onCreate() {
         Tags.AddTagsTo(this, 'enemy');
 
-        this.scene.resourceManager.load('knuckles', (model: Model) => {
-            if (model == null || model.meshes == null) {
-                return;
-            }
+        switch (this.mobType) {
+            case MobType.Knuckles:
+                this.sounds.push(new BABYLON.Sound('deway', './assets/knuckles_dewey.mp3', this.scene.core));
+                this.sounds.push(new BABYLON.Sound('qluck', './assets/knuckles_qlack.mp3', this.scene.core));
+                this.scene.resourceManager.load('knuckles', (model: Model) => {
+                    if (model == null || model.meshes == null) {
+                        return;
+                    }
 
-            this.meshes = model.meshes;
+                    model.meshes.forEach(mesh => {
+                        const newMesh = mesh.clone(this.name + '_mesh', this);
 
-            model.meshes.forEach(mesh => {
-                const newMesh = mesh.clone(this.name + '_mesh', this);
+                        if (mesh.skeleton != null) {
+                            newMesh.skeleton = mesh.skeleton.clone(this.name + '_skeleton', '');
+                            this.scene.core.beginAnimation(newMesh.skeleton, 0, 63, true, 1);
+                        }
 
-                if (mesh.skeleton != null) {
-                    newMesh.skeleton = mesh.skeleton.clone(this.name + '_skeleton', '');
-                    this.scene.core.beginAnimation(newMesh.skeleton, 0, 63, true, 1);
-                }
+                        Tags.AddTagsTo(newMesh, 'enemy');
+                        newMesh.isVisible = true;
+                    });
+                });
+                break;
 
-                Tags.AddTagsTo(newMesh, 'enemy');
-                newMesh.isVisible = true;
-            });
-        });
+            case MobType.Nyan:
+                this.scene.resourceManager.load('nyan', (model: Model) => {
+                    if (model == null || model.meshes == null) {
+                        return;
+                    }
+
+                    model.meshes.forEach(mesh => {
+                        const newMesh = mesh.clone(this.name + '_mesh', this);
+
+                        Tags.AddTagsTo(newMesh, 'enemy');
+                        newMesh.isVisible = true;
+                    });
+                });
+                break;
+        }
     }
 
     onUpdate() {
@@ -52,10 +69,10 @@ export class Mob extends GameUnit {
             return;
         }
 
-        if (Math.random() < 0.001) {
+        if (this.sounds.length > 0 && Math.random() < 0.001) {
             this.sounds[0].play();
             this.sounds[0].setPosition(this.position);
-        } else if (Math.random() < 0.01) {
+        } else if (this.sounds.length > 1 && Math.random() < 0.01) {
             this.sounds[1].play();
             this.sounds[1].setPosition(this.position);
         }
@@ -80,5 +97,16 @@ export class Mob extends GameUnit {
 
     setTarget(target: GameUnit) {
         this.target = target;
+    }
+
+    getSyncData() {
+        return {
+            uid: this.uid,
+            mobType: this.mobType,
+            position: this.position,
+            rotationY: this.rotation.y,
+            hp: this.hp,
+            maxHp: this.maxHp
+        };
     }
 }

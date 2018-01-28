@@ -1,7 +1,7 @@
 import { GameUnit } from '../bases/GameUnit';
 import { GameScene } from '../bases/GameScene';
 import { Treasure } from './Treasure';
-import { Mob } from './Mob';
+import { Mob, MobType } from './Mob';
 
 export class SpawnPoint extends GameUnit {
     private timer = 0;
@@ -24,7 +24,7 @@ export class SpawnPoint extends GameUnit {
         this.timer += 0.001 * this.scene.core.getEngine().getDeltaTime();
 
         if (this.timer > 1) {
-            const mob = new Mob(this.scene, 'mob_' + (this.currentMob++));
+            const mob = new Mob(this.scene, 'mob_' + (this.currentMob++), (Math.random() < 0.5) ? MobType.Knuckles : MobType.Nyan);
             mob.position = this.position.add(new BABYLON.Vector3(Math.random() * 10 - 5, 0, Math.random() * 10 - 5));
             this.scene.spawnUnit(mob);
 
@@ -33,5 +33,9 @@ export class SpawnPoint extends GameUnit {
 
             this.timer = 0;
         }
+    }
+
+    getSyncData() {
+        return {};
     }
 }

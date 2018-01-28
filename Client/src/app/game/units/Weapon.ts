@@ -3,7 +3,6 @@ import { Mesh, Scene } from 'babylonjs';
 import { GameScene } from '../bases/GameScene';
 import { StaticObject } from './StaticObject';
 import { Vector3, Tags, MeshBuilder, CustomMaterial, Color3, AbstractMesh } from 'babylonjs-materials';
-import { text } from '@angular/core/src/render3/instructions';
 import { Model } from '../stuff/ResourceManager';
 
 export class Weapon extends GameUnit {
@@ -18,7 +17,7 @@ export class Weapon extends GameUnit {
             if (model == null || model.meshes == null) {
                 return;
             }
-            
+
             model.meshes.forEach(mesh => {
                 mesh.parent = this.baseMesh;
                 mesh.position = this.position;
@@ -61,5 +60,9 @@ export class Weapon extends GameUnit {
                 // sp.material = mat;
             }
         }*/
+    }
+
+    getSyncData() {
+        return {};
     }
 }

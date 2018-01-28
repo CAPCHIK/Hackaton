@@ -23,4 +23,8 @@ export class StaticObject extends GameUnit {
 
     onUpdate() {
     }
+
+    getSyncData() {
+        return {};   
+    }
 }

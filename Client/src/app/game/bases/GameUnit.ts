@@ -33,13 +33,5 @@ export abstract class GameUnit extends TransformNode {
         this.onDamageApplied();
     }
 
-
-
-    getSyncData(): any {
-        return {
-            name: this.name,
-            hp: this.hp,
-            immortable: this.immortable
-        };
-    }
+    abstract getSyncData();
 }

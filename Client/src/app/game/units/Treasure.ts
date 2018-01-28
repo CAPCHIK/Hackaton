@@ -49,4 +49,13 @@ export class Treasure extends GameUnit {
         this.hpIndicator.parent = this;
         this.hpIndicator.material = this.hpMaterial;
     }
+
+    getSyncData() {
+        return {
+            uid: this.uid,
+            position: this.position,
+            hp: this.hp,
+            maxHp: this.maxHp
+        };
+    }
 }

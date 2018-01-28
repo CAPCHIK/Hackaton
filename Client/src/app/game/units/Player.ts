@@ -18,4 +18,12 @@ export class Player extends GameUnit {
     onUpdate() {
 
     }
+
+    getSyncData() {
+        return {
+            uid: this.uid,
+            position: this.position,
+            rotationY: this.rotation.y
+        };
+    }
 }

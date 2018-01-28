@@ -32,6 +32,7 @@ export class CarryScene extends GameScene {
         this.resourceManager.bind('tower', 'tower_1.babylon', 'tower_1_diffuse.png');
         this.resourceManager.bind('terrain', 'terrain.babylon', 'terrain.png');
         this.resourceManager.bind('knuckles', 'knuckles.babylon');
+        this.resourceManager.bind('nyan', 'nyan.babylon');
         this.resourceManager.bind('bitcoin', 'bitcoin.babylon');
         this.resourceManager.bind('banana', 'banana.babylon');
 

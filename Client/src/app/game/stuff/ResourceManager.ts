@@ -1,4 +1,4 @@
-import { Material } from "babylonjs-materials";
+import { Material } from 'babylonjs-materials';
 
 type Callback = (model: Model) => void;
 

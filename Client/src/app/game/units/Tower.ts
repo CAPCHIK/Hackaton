@@ -4,4 +4,8 @@ export class Tower extends GameUnit {
     onUpdate() {
 
     }
+
+    getSyncData() {
+        return {};
+    }
 }
