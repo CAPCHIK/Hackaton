@@ -55,7 +55,7 @@ export class Treasure extends GameUnit {
         return {
             unitType: 'Treasure',
             uid: this.uid,
-            position: this.position,
+            position: this.absolutePosition,
             hp: this.hp,
             maxHp: this.maxHp
         };
