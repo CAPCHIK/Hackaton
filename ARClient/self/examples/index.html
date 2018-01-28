@@ -5,8 +5,25 @@
 <script src="../build/socket.io.js"></script>
 <script src="../build/ServerCommunication.js"></script>
 <script>
+	function CarryBuffPress(){
 	funHackManager.CarryBuff();
-	console.log('lol after CarryBuff');
+	console.log('lol after CarryBuff')}
+
+	function TreasureHPPress(){
+	funHackManager.TreasureHP()
+	console.log('lol after TreasureHP')}
+
+	function FreezePress(){
+	funHackManager.Freeze()
+	console.log('lol after Freeze')}
+
+	function BuildTowePress(){
+	funHackManager.BuildTower()
+	console.log('lol after BuildTower')}
+
+	function MoveTreasurePress(){
+	funHackManager.MoveTreasure()
+	console.log('lol after MoveTreasure')}
 </script>
 
   <body style='margin : 0px; overflow: hidden;'>
@@ -30,7 +47,8 @@
 			<a-asset-item id="SpawnWoodTower" src="assets/tower/SpawnWoodTower.mtl"></a-asset-item>
 
 			<!--<img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">!-->
-  	</a-assets>
+	  </a-assets>
+
   	<a-marker preset="hiro">
 			<!--<a-plane src="#groundTexture" rotation="-90 0 0" width="15" height="15"></a-plane>1-->
 
@@ -45,6 +63,11 @@
 
   	</a-marker>
   	<a-entity camera></a-entity>
-    </a-scene>
+	</a-scene>
+	<button onclick="CarryBuffPress();" style='z-index:11000; position: absolute; top: 25px; left: 15px; width: 32px; height: 32px'>CB</button>
+	<button onclick="TreasureHPPress();" style='z-index:11000; position: absolute; top: 75px; left: 15px; width: 32px; height: 32px'>HP</button>
+	<button onclick="FreezePress();" style='z-index:11000; position: absolute; top: 125px; left: 15px; width: 32px; height: 32px'>FR</button>
+	<button onclick="BuildTowePress();" style='z-index:11000; position: absolute; top: 175px; left: 15px; width: 32px; height: 32px'>BT</button>
+	<button onclick="MoveTreasurePress();" style='z-index:11000; position: absolute; top: 225px; left: 15px; width: 32px; height: 32px'>MT</button>
   </body>
 </html>
