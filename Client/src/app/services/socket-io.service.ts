@@ -23,7 +23,7 @@ export class SocketIoService {
     moveTreasure: Observable<Vector2>;
 
     constructor() {
-        this.connection = io('http://62.109.18.175:4000/');
+        this.connection = io('https://aluminiumcomposite.ru/');
 
         this.connection.on('playerUpdate', d => {
             //console.log(d);
