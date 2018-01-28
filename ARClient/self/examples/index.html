@@ -1,0 +1,111 @@
+<!doctype HTML>
+<html>
+<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.0/aframe/build/aframe-ar.js"> </script>
+<script src="../build/socket.io.js"></script>
+<script src="../build/ServerCommunication.js"></script>
+<script>
+	console.log(12345);
+
+	// Component to change to a sequential color on click. 
+	AFRAME.registerComponent('cursor-listener', {
+		init: function () {
+			//var lastIndex = -1; 
+			//var COLORS = ['red', 'green', 'blue']; 
+			this.el.addEventListener('mouseup', function (evt) {
+				//lastIndex = (lastIndex + 1) % COLORS.length; 
+				//this.setAttribute('material', 'color', COLORS[lastIndex]); 
+				console.log('I was clicked at: ', evt.detail.intersection.point);
+			});
+		}
+	});
+
+	console.log(funHackManager);
+	funHackManager.treasureUpdate = function (data) {
+		console.log(data);
+	}
+	funHackManager.onPlayerUpdate = function (data) {
+		console.log('PLAYER');
+		console.log(data);
+	}
+
+
+	function CarryBuffPress() {
+		funHackManager.CarryBuff();
+		console.log('lol after CarryBuff')
+	}
+
+	function TreasureHPPress() {
+		funHackManager.TreasureHP()
+		console.log('lol after TreasureHP')
+	}
+
+	function FreezePress() {
+		funHackManager.Freeze()
+		console.log('lol after Freeze')
+	}
+
+	function BuildTowePress() {
+		funHackManager.BuildTower()
+		console.log('lol after BuildTower')
+	}
+
+	function MoveTreasurePress() {
+		funHackManager.MoveTreasure()
+		console.log('lol after MoveTreasure')
+	}
+
+</script>
+
+<body style='margin : 0px; overflow: hidden;'>
+	<a-scene embedded arjs>
+		<a-assets>
+			<a-asset-item id="zd-obj" src="assets/models/zd/zd.obj"></a-asset-item>
+			<a-asset-item id="zd-mtl" src="assets/models/zd/zd.mtl"></a-asset-item>
+			<a-asset-item id="Island-obj" src="assets/models/Island/Island.obj"></a-asset-item>
+			<a-asset-item id="Island-mtl" src="assets/models/Island/Island.mtl"></a-asset-item>
+			<a-asset-item id="boss-witness-obj" src="assets/models/boss-witness.obj"></a-asset-item>
+			<a-asset-item id="boss-witness-mtl" src="assets/models/boss-witness.mtl"></a-asset-item>
+			<a-asset-item id="warrior_blackbird" src="assets/models/warrior_blackbird.obj"></a-asset-item>
+			<a-asset-item id="warrior_blackbird" src="assets/models/warrior_blackbird.mtl"></a-asset-item>
+			<a-asset-item id="warrior_bomber" src="assets/models/warrior_bomber.obj"></a-asset-item>
+			<a-asset-item id="warrior_bomber" src="assets/models/warrior_bomber.mtl"></a-asset-item>
+			<a-asset-item id="warrior_nyan" src="assets/models/warrior_nyan.obj"></a-asset-item>
+			<a-asset-item id="warrior_nyan" src="assets/models/warrior_nyan.mtl"></a-asset-item>
+			<a-asset-item id="frozen_wall" src="assets/spell/frozen_wall.obj"></a-asset-item>
+			<a-asset-item id="frozen_wall" src="assets/spell/frozen_wall.mtl"></a-asset-item>
+			<a-asset-item id="SpawnWoodTower" src="assets/tower/SpawnWoodTower.obj"></a-asset-item>
+			<a-asset-item id="SpawnWoodTower" src="assets/tower/SpawnWoodTower.mtl"></a-asset-item>
+
+			<!--<img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">!-->
+		</a-assets>
+
+		<a-marker preset="hiro">
+			<!--<a-plane src="#groundTexture" rotation="-90 0 0" width="15" height="15"></a-plane>1-->
+
+			<a-obj-model src="#Island-obj" mtl="#Island-mtl" position: "0 1 0" rotation="0 0 0" scale="20 20 20" visible="true" obj-model=""
+			 cursor-listener=""></a-obj-model>
+			<a-obj-model src="#zd-obj" mtl="#zd-mtl" position: "0 0 0" rotation="-90 90 90" scale="0.01 0.01 0.01" visible="true"></a-obj-model>
+			<a-obj-model src="#boss-witness-obj" mtl="#boss-witness-mtl" position: "0 0 0" visible="true"></a-obj-model>
+			<a-obj-model src="#warrior_blackbird-obj" mtl="#warrior_blackbird-mtl" position: "0 0 0" visible="true"></a-obj-model>
+			<a-obj-model src="#warrior_bomber-obj" mtl="#warrior_bomber-mtl" position: "0 0 0" visible="true"></a-obj-model>
+			<a-entity id="plane" cursor-listener geometry="primitive: plane" material="color: blue" position="0 1 0" rotation="-90 0 0"
+			 width="2" height="2"></a-entity>
+			<!--<a-light type="ambient" color="#445451"></a-light>
+			<a-light type="point" intensity="1" position="2 100 4"></a-light>!-->
+
+		</a-marker>
+		<a-entity camera>
+			<a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.007"
+			 material="color: black; shader: flat">
+			</a-entity>
+		</a-entity>
+	</a-scene>
+	<button onclick="CarryBuffPress();" style='z-index:11000; position: absolute; top: 25px; left: 15px; width: 32px; height: 32px'>CB</button>
+	<button onclick="TreasureHPPress();" style='z-index:11000; position: absolute; top: 75px; left: 15px; width: 32px; height: 32px'>HP</button>
+	<button onclick="FreezePress();" style='z-index:11000; position: absolute; top: 125px; left: 15px; width: 32px; height: 32px'>FR</button>
+	<button onclick="BuildTowePress();" style='z-index:11000; position: absolute; top: 175px; left: 15px; width: 32px; height: 32px'>BT</button>
+	<button onclick="MoveTreasurePress();" style='z-index:11000; position: absolute; top: 225px; left: 15px; width: 32px; height: 32px'>MT</button>
+</body>
+
+</html>
