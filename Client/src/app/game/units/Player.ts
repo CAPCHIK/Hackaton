@@ -18,8 +18,8 @@ export class Player extends GameUnit {
         return {
             unitType: 'Player',
             uid: this.uid,
-            position: this.scene.mainCamera.position,
-            rotationY: this.scene.mainCamera.rotation.y
+            position: (this.parent as BABYLON.Camera).globalPosition,
+            rotationY: 0
         };
     }
 }

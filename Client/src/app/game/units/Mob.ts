@@ -138,7 +138,7 @@ export class Mob extends GameUnit {
             unitType: 'Mob',
             uid: this.uid,
             mobType: this.mobType,
-            position: this.position,
+            position: this.absolutePosition,
             rotationY: this.rotation.y,
             hp: this.hp,
             maxHp: this.maxHp
