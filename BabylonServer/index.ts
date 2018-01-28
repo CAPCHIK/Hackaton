@@ -18,8 +18,7 @@ io.on("connection", socket => {
         socket.broadcast.emit("treasure_hp"));
     socket.on("build_tower", data =>
         socket.broadcast.emit("build_tower", data));
-    socket.on("carry_buff", () =>
-    {
+    socket.on("carry_buff", () => {
         console.log('carry buff');
         socket.broadcast.emit("carry_buff");
     });

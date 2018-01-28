@@ -1,4 +1,4 @@
-var socket = io('http://localhost:4000');
+var socket = io('http://62.109.18.175:4000/');
 socket.on('connect', function () { });
 var ServerCommunication = /** @class */ (function () {
     function ServerCommunication() {

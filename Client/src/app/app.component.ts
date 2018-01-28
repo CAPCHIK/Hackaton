@@ -20,7 +20,15 @@ export class AppComponent implements OnInit {
         const engine = new Engine(canvas, true);
 
         const scene = new Scene(engine);
-        scene.debugLayer.show();
+        // scene.debugLayer.show();
+
+
+        // Sample Usage
+        this.socket.freeze.subscribe(vector => {
+            // Do anithing with vector
+        }, error => {
+            '.. Если что-то слуится';
+        });
 
         const currentScene = new CarryScene(scene, this.socket);
 
@@ -28,7 +36,6 @@ export class AppComponent implements OnInit {
 
         engine.runRenderLoop(function () {
             currentScene.preUpdate();
-
             currentScene.onGui();
             currentScene.onUpdate();
             currentScene.onDraw();
