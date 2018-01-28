@@ -8,11 +8,9 @@ using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Newtonsoft.Json;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 using TelegramBot.Models;
-using System.Data.SqlClient;
 
 namespace TelegramBot.Controllers
 {
@@ -54,14 +52,12 @@ namespace TelegramBot.Controllers
 
             if (message.Text.StartsWith("Carry"))
             {
-                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Перекрестись и прыгай в виртуальную реальность(VR)", "yandex.ru") });
+                var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Перекрестись и прыгай в виртуальную реальность(VR)", "http://62.109.18.175:4201/") });
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Carry. Приятной игры, чувак!;)", replyMarkup: inlineKeyboard);
-
             }
 
             if (message.Text.StartsWith("Support"))
             {
-
                 var inlineKeyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardUrlButton("Перекрестись и прыгай в дополненную реальность(AR)", "https://vk.com/away.php?to=https%3A%2F%2Fwebrtcfunhack.azurewebsites.net%2Fself%2Fexamples%2Findex.html&cc_key=") });
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Ты выбрал Support. Приятной игры, чувак!;)", replyMarkup: inlineKeyboard);
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Но перед этим тебе нужно распечатать эту шнягу, чтобы все хорошо работало. Для этого перейди по следующей ссылке:\n https://vk.com/away.php?to=https%3A%2F%2Fwebrtcfunhack.azurewebsites.net%2Fself%2Fexamples%2Fassets%2Fpictures%2Fextensions%2Fhiro.jpg&cc_key=");
@@ -104,14 +100,13 @@ namespace TelegramBot.Controllers
                 await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Таблица рекордов:\n" + line);
             }
 
-            if (message.Text.StartsWith("/score"))
-            {
-                var id = message.From.Id;
-                dbContext.Players.OrderBy(P => P.Score);
-                var score = dbContext.Players;
+            //if (message.Text.StartsWith("/score"))
+            //{
+            //    dbContext.Players.OrderBy(P => P.Score);
+            //    var score = dbContext.Players;
 
-                await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Твой результат: " + score.ToString());
-            }
+            //    await telegramBotClient.SendTextMessageAsync(message.Chat.Id, "Твой результат: " + score.ToString());
+            //}
 
             if (!message.Text.StartsWith("/score") &&
                 !message.Text.StartsWith("/topscore") &&
