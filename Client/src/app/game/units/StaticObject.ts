@@ -18,6 +18,7 @@ export class StaticObject extends GameUnit {
                 const newMesh = mesh.clone(this.name + '_mesh', this, false);
                 newMesh.isVisible = true;
 
+                this.scene.shadowGenerator.getShadowMap().renderList.push(newMesh);
                 newMesh.receiveShadows = true;
             });
         });

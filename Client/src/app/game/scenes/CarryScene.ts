@@ -19,19 +19,25 @@ export class CarryScene extends GameScene {
 
     private spawnPoints = new Array<SpawnPoint>();
 
-    private weapon: Weapon;
+    private mainLight: BABYLON.DirectionalLight;
+    private mainLightOffset = new BABYLON.Vector3(50, 50, 50);
+
+    private weaponLeft: Weapon;
+    private weaponRight: Weapon;
 
     private rightTriggerPressed = false;
     private leftTriggerPressed = false;
     private gunCreated = false;
 
+    private startPosition = new BABYLON.Vector3(5, 4, -10);
+
     onStart() {
-        const light1 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
-        light1.position = new BABYLON.Vector3(50, 50, 50);
+        this.mainLight = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
+        this.mainLight.position = this.mainLightOffset;
 
         const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
 
-        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, light1);
+        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, this.mainLight);
         this.shadowGenerator.useExponentialShadowMap = true;
         this.shadowGenerator.forceBackFacesOnly = true;
 
@@ -59,9 +65,8 @@ export class CarryScene extends GameScene {
         this.terrain = new StaticObject(this, 'terrain', 'terrain');
         this.spawnUnit(this.terrain);
 
-        this.player = new Player(this, 'player', new Vector3(5, 2, -10));
+        this.player = new Player(this, 'player');
         this.spawnUnit(this.player);
-        light1.parent = this.player;
 
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
@@ -72,38 +77,41 @@ export class CarryScene extends GameScene {
         }
 
         //
-        this.socket.freezeMobs.subscribe(vector => {
-        }, error => {
-        });
+        this.mainCamera = new BABYLON.FreeCamera('camera', this.startPosition, this.core);
+        this.mainCamera.attachControl(this.core.getEngine().getRenderingCanvas(), true);
+        this.player.parent = this.mainCamera;
 
         // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
         });
-        this.player.parent = vrHelper.webVRCamera;
 
         vrHelper.webVRCamera.onControllersAttachedObservable.add(evData => {
-            if (this.gunCreated === false) {
-                const cube = MeshBuilder.CreateBox('right_hand', { width: 0.2, depth: 0.1, height: 0.3 });
-                cube.isVisible = false;
+            this.mainCamera = vrHelper.webVRCamera;
+            this.mainCamera.position = this.startPosition;
+            this.player.parent = this.mainCamera;
 
-                vrHelper.webVRCamera.rightController.attachToMesh(cube);
-                this.weapon = new Weapon(this, 'banana', cube);
-                this.spawnUnit(this.weapon);
+            if (this.gunCreated === false) {
+                const cubeRight = MeshBuilder.CreateBox('right_hand', { width: 0.2, depth: 0.1, height: 0.3 });
+                cubeRight.isVisible = false;
+
+                vrHelper.webVRCamera.rightController.attachToMesh(cubeRight);
+                this.weaponRight = new Weapon(this, 'banana1', cubeRight);
+                this.spawnUnit(this.weaponRight);
 
                 const cubeleft = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
                 cubeleft.isVisible = false;
 
-                vrHelper.webVRCamera.leftController.attachToMesh(cube);
-                this.weapon = new Weapon(this, 'banana2', cubeleft);
-                this.spawnUnit(this.weapon);
+                vrHelper.webVRCamera.leftController.attachToMesh(cubeleft);
+                this.weaponLeft = new Weapon(this, 'banana2', cubeleft);
+                this.spawnUnit(this.weaponLeft);
 
                 this.gunCreated = true;
             }
 
             vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
                 if (evdata.pressed && !this.rightTriggerPressed) {
-                    this.weapon.shoot();
+                    this.weaponRight.shoot();
                     this.rightTriggerPressed = true;
                 } else if (!evdata.pressed && this.rightTriggerPressed) {
                     this.rightTriggerPressed = false;
@@ -111,7 +119,7 @@ export class CarryScene extends GameScene {
             });
             vrHelper.webVRCamera.leftController.onTriggerStateChangedObservable.add(evdata => {
                 if (evdata.pressed && !this.leftTriggerPressed) {
-                    this.weapon.shoot();
+                    this.weaponLeft.shoot();
                     this.leftTriggerPressed = true;
                 } else if (!evdata.pressed && this.leftTriggerPressed) {
                     this.leftTriggerPressed = false;

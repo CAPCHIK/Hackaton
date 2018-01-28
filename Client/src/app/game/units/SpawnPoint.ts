@@ -23,7 +23,7 @@ export class SpawnPoint extends GameUnit {
     onUpdate() {
         this.timer += 0.001 * this.scene.core.getEngine().getDeltaTime();
 
-        if (this.timer > 1) {
+        if (this.timer > 1.5) {
             const mob = new Mob(this.scene, 'mob_' + (this.currentMob++), (Math.random() < 0.5) ? MobType.Knuckles : MobType.Nyan);
             mob.position = this.position.add(new BABYLON.Vector3(Math.random() * 10 - 5, 0, Math.random() * 10 - 5));
             this.scene.spawnUnit(mob);
