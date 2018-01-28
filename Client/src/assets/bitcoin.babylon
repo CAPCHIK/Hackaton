@@ -2,7 +2,7 @@
 "autoClear":true,"clearColor":[0.0509,0.0509,0.0509],"ambientColor":[0,0,0],"gravity":[0,-9.81,0],
 "materials":[{"name":"bitcoin.Material_47","id":"bitcoin.Material_47","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0,0,0],"emissive":[0,0,0],"specularPower":511,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":false,"maxSimultaneousLights":4},
 {"name":"bitcoin.Material_48","id":"bitcoin.Material_48","ambient":[1,1,1],"diffuse":[0.8,0.8,0.8],"specular":[0,0,0],"emissive":[0,0,0],"specularPower":511,"alpha":1,"backFaceCulling":true,"checkReadyOnlyOnce":false,"maxSimultaneousLights":4, 
-"diffuseTexture":{"name":"6.png","level":1,"hasAlpha":1,"coordinatesMode":0,"uOffset":0,"vOffset":0,"uScale":1,"vScale":1,"uAng":0,"vAng":0,"wAng":0,"wrapU":1,"wrapV":1,"coordinatesIndex":0}}],
+"diffuseTexture":{"name":"bitcoin.png","level":1,"hasAlpha":1,"coordinatesMode":0,"uOffset":0,"vOffset":0,"uScale":1,"vScale":1,"uAng":0,"vAng":0,"wAng":0,"wrapU":1,"wrapV":1,"coordinatesIndex":0}}],
 "multiMaterials":[{"name":"bitcoin.Multimaterial#0","id":"bitcoin.Multimaterial#0","materials":["bitcoin.Material_47","bitcoin.Material_48"]}],
 "skeletons":[],
 "meshes":[{"name":"node_id28","id":"node_id28","materialId":"bitcoin.Multimaterial#0","billboardMode":0,"position":[0.0001,0,-0.0022],"rotation":[-1.5708,0,0],"scaling":[0.1463,0.1463,0.1463],"isVisible":true,"freezeWorldMatrix":false,"isEnabled":true,"checkCollisions":false,"receiveShadows":false,"tags":""

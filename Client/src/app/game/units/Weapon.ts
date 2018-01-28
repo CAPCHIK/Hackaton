@@ -2,48 +2,132 @@ import { GameUnit } from '../bases/GameUnit';
 import { Mesh, Scene } from 'babylonjs';
 import { GameScene } from '../bases/GameScene';
 import { StaticObject } from './StaticObject';
-import { Vector3, Tags, MeshBuilder, CustomMaterial, Color3 } from 'babylonjs-materials';
-import { text } from '@angular/core/src/render3/instructions';
+import { Vector3, Tags, MeshBuilder, CustomMaterial, Color3, AbstractMesh } from 'babylonjs-materials';
+import { Model } from '../stuff/ResourceManager';
 
 export class Weapon extends GameUnit {
-    onUpdate() {
+    static particleSystem: BABYLON.ParticleSystem;
+    static phontain: BABYLON.AbstractMesh;
 
+    private weapon: AbstractMesh;
+
+    constructor(scene: GameScene, name: string, private baseMesh: Mesh) {
+        super(scene, name);
+
+        if (Weapon.phontain == null) {
+            Weapon.phontain = BABYLON.MeshBuilder.CreateSphere('foutain', {
+                diameter: 1
+            }, this.scene.core);
+            Weapon.phontain.isVisible = false;
+        }
     }
-    constructor(scene: GameScene, name: string, private baseMesh: Mesh, private secondMesh: Mesh) { super(scene, name); }
 
     onCreate() {
-        BABYLON.SceneLoader.ImportMesh('', './assets/weapon/', 'Banana.babylon', this.scene.core,
-            (newMeshes, particleSystems, skeletons) => {
-                newMeshes.forEach(M => {
-                    M.parent = this.baseMesh;
-                    Tags.AddTagsTo(M, 'banana');
-                    const rad = (a) => a / 180 * Math.PI;
-                    M.rotate(new Vector3(1, 0, 0), rad(90));
-                    M.rotate(new Vector3(0, 0, 1), rad(90));
-                    M.rotate(new Vector3(1, 0, 0), rad(180));
-                    M.scaling = M.scaling.scale(4);
-                    M.position.x += 2.5;
-                    M.position.z += 1.5;
-                    M.position.y += 0.3;
-                    const myMaterial = new BABYLON.StandardMaterial('myMaterial', this.scene.core);
-                    myMaterial.wireframe = true;
-                    M.material = myMaterial;
-                });
+        this.scene.resourceManager.load('banana', (model: Model) => {
+            if (model == null || model.meshes == null) {
+                return;
+            }
+
+            model.meshes.forEach(mesh => {
+                mesh.parent = this.baseMesh;
+                mesh.position = this.position;
+                mesh.rotate(Vector3.Up(), Math.PI / 2);
+                mesh.rotate(Vector3.Right(), Math.PI);
+                mesh.rotate(Vector3.Forward(), -Math.PI / 2);
+                mesh.scaling = mesh.scaling.scale(0.1);
+                mesh.isVisible = true;
+                Tags.AddTagsTo(mesh, 'banana');
             });
+
+            this.weapon = model.meshes[0];
+      });
+
     }
 
-    public shoot(): void {
-        console.log('SHOOT');
-        const ray = new BABYLON.Ray(
-            this.baseMesh.absolutePosition,
-            this.secondMesh.absolutePosition.subtract(this.baseMesh.absolutePosition),
-            100);
+    onUpdate() {
+    }
+
+    createParticles(fountain: AbstractMesh) {
+        const particleSystem = new BABYLON.ParticleSystem('particles', 100, this.scene.core);
+
+        // Texture of each particle
+        particleSystem.particleTexture = new BABYLON.Texture('./assets/flare.png', this.scene.core);
+
+        // Where the particles come from
+        particleSystem.emitter = fountain; // the starting object, the emitter
+        particleSystem.createDirectedSphereEmitter(1.2, new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(2, 5, 2));
+
+        // Colors of all particles
+        particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+        particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+        particleSystem.colorDead = new BABYLON.Color4(0, 0, 0.2, 0.0);
+
+        // Size of each particle (random between...
+        particleSystem.minSize = 0.1;
+        particleSystem.maxSize = 0.5;
+
+        // Life time of each particle (random between...
+        particleSystem.minLifeTime = 0.3;
+        particleSystem.maxLifeTime = 1.5;
+
+        // Emission rate
+        particleSystem.manualEmitCount = 100;
+
+        // Blend mode : BLENDMODE_ONEONE, or BLENDMODE_STANDARD
+        particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
+
+        // Angular speed, in radians
+        particleSystem.minAngularSpeed = 0;
+        particleSystem.maxAngularSpeed = Math.PI;
+
+        // Speed
+        particleSystem.minEmitPower = 1;
+        particleSystem.maxEmitPower = 3;
+        particleSystem.updateSpeed = 0.005;
+
+        particleSystem.disposeOnStop = true;
+
+        particleSystem.targetStopDuration = 1;
+
+        particleSystem.onAnimationEnd = () => {
+            fountain.dispose();
+        };
+
+        // Start the particle system
+        particleSystem.start();
+    }
+
+    shoot() {
+        const direction = this.weapon.getDirection(Vector3.Up().add(Vector3.Right().negate().scale(1.7))).normalize();
+        const right = BABYLON.Vector3.Cross(direction, BABYLON.Vector3.Up()).normalize();
+        const up = BABYLON.Vector3.Cross(right, direction).normalize();
+
+        const ray = new BABYLON.Ray(this.baseMesh.absolutePosition.add(up.scale(0.05)), direction);
+
         // const hit = this.scene.core.pickWithRay(ray, (M) => (M.name.indexOf('mob') !== -1) || (M.name.indexOf('node_id') !== -1));
         const hit = this.scene.core.pickWithRay(ray, (M) => Tags.MatchesQuery(M, 'enemy'));
         if (hit.hit) {
-            console.log(hit.pickedMesh.name);
-            hit.pickedMesh.dispose();
-        } else {
+            const phontain = Weapon.phontain.clone('particles', null);
+            phontain.position = hit.pickedPoint;
+            phontain.isVisible = false;
+
+            this.createParticles(phontain);
+
+            const lines = BABYLON.MeshBuilder.CreateLines('lines', { points: [ray.origin, hit.pickedPoint], 
+                updatable: true, instance: null }, this.scene.core);
+
+            const f = () =>  {
+                if (lines.material.alpha > 0.1) {
+                    lines.material.alpha -= 0.1;
+                    setTimeout(f, 10);
+                } else {
+                    lines.dispose();
+                }
+            };
+            f();
+
+            this.scene.deleteUnit(hit.pickedMesh.parent as GameUnit);
+        }/* else {
             const nextHit = this.scene.core.pickWithRay(ray, (M) => Tags.MatchesQuery(M, '!banana'));
             if (nextHit.hit) {
                 // const sp = MeshBuilder.CreateSphere('hit_sphere', {segments: 15, diameter: 0.1}, this.scene.core);
@@ -52,6 +136,10 @@ export class Weapon extends GameUnit {
                 // mat.diffuseColor = Color3.Red();
                 // sp.material = mat;
             }
-        }
+        }*/
+    }
+
+    getSyncData() {
+        return {};
     }
 }

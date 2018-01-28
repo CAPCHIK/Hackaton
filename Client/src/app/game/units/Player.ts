@@ -3,19 +3,23 @@ import { Vector3 } from 'babylonjs';
 import { GameScene } from '../bases/GameScene';
 
 export class Player extends GameUnit {
-    private camera: BABYLON.Camera;
-
-    constructor(scene: GameScene, name: string, private startPosition: Vector3) {
+    constructor(scene: GameScene, name: string) {
         super(scene, name);
     }
 
     onCreate() {
-        this.camera = new BABYLON.FreeCamera('camera', this.startPosition, this.scene.core);
-        this.camera.parent = this;
-        this.camera.attachControl(this.scene.core.getEngine().getRenderingCanvas(), true);
     }
 
     onUpdate() {
 
+    }
+
+    getSyncData() {
+        return {
+            unitType: 'Player',
+            uid: this.uid,
+            position: this.scene.mainCamera.position,
+            rotationY: this.scene.mainCamera.rotation.y
+        };
     }
 }

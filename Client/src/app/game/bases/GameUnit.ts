@@ -2,6 +2,7 @@ import { TransformNode } from 'babylonjs';
 import { GameScene } from './GameScene';
 
 export abstract class GameUnit extends TransformNode {
+    static currentUid = 0;
 
     readonly uid: number = -1;
     readonly name: string;
@@ -13,6 +14,7 @@ export abstract class GameUnit extends TransformNode {
         super(name);
         this.maxHp = _hp;
         this.name = name;
+        this.uid = GameUnit.currentUid++;
     }
 
     onCreate() { }
@@ -23,7 +25,6 @@ export abstract class GameUnit extends TransformNode {
 
     onUpdate() { }
 
-
     applyDamage(damage: number) {
         this._hp -= damage;
         if (this._hp <= 0) {
@@ -33,13 +34,5 @@ export abstract class GameUnit extends TransformNode {
         this.onDamageApplied();
     }
 
-
-
-    getSyncData(): any {
-        return {
-            name: this.name,
-            hp: this.hp,
-            immortable: this.immortable
-        };
-    }
+    abstract getSyncData();
 }

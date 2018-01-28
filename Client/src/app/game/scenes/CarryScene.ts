@@ -6,6 +6,7 @@ import 'babylonjs-materials';
 import { Treasure } from '../units/Treasure';
 import { SpawnPoint } from '../units/SpawnPoint';
 import { Weapon } from '../units/Weapon';
+import { ResourceManager } from '../stuff/ResourceManager';
 
 export class CarryScene extends GameScene {
     private timer = 0;
@@ -18,51 +19,113 @@ export class CarryScene extends GameScene {
 
     private spawnPoints = new Array<SpawnPoint>();
 
+    private mainLight: BABYLON.DirectionalLight;
+    private mainLightOffset = new BABYLON.Vector3(50, 50, 50);
+
+    private weaponLeft: Weapon;
+    private weaponRight: Weapon;
+
+    private rightTriggerPressed = false;
+    private leftTriggerPressed = false;
+    private gunCreated = false;
+
+    private startPosition = new BABYLON.Vector3(5, 4, -10);
+
     onStart() {
-        this.createEnvironment();
+        this.mainLight = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
+        this.mainLight.position = this.mainLightOffset;
 
-        this.tower = new StaticObject(this, 'tower', 'tower_1.babylon');
+        const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
+
+        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, this.mainLight);
+        this.shadowGenerator.useExponentialShadowMap = true;
+        this.shadowGenerator.forceBackFacesOnly = true;
+
+        const skyMaterial = new BABYLON.SkyMaterial('skyMaterial', this.core);
+        skyMaterial.backFaceCulling = false;
+        skyMaterial.useSunPosition = true;
+        skyMaterial.sunPosition = new BABYLON.Vector3(100, 100, 100);
+
+        const skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.core);
+        skybox.material = skyMaterial;
+
+        this.resourceManager = new ResourceManager(this);
+
+        this.resourceManager.bind('tower', 'tower_1.babylon', 'tower_1_diffuse.png');
+        this.resourceManager.bind('terrain', 'terrain.babylon', 'terrain.png');
+        this.resourceManager.bind('knuckles', 'knuckles.babylon');
+        this.resourceManager.bind('nyan', 'nyan.babylon');
+        this.resourceManager.bind('bitcoin', 'bitcoin.babylon');
+        this.resourceManager.bind('banana', 'banana.babylon');
+
+        this.tower = new StaticObject(this, 'tower', 'tower');
         this.spawnUnit(this.tower);
-        this.tower.material.baseTexture = new BABYLON.Texture('./assets/tower_1_diffuse.png', this.core);
-        this.tower.position = new BABYLON.Vector3(10, 0, -10);
+        this.tower.position = new BABYLON.Vector3(20, 0, -10);
 
-        this.player = new Player(this, 'player', new Vector3(5, 2, -10));
-        this.spawnUnit(this.player);
-
-        this.terrain = new StaticObject(this, 'terrain', 'terrain.babylon');
+        this.terrain = new StaticObject(this, 'terrain', 'terrain');
         this.spawnUnit(this.terrain);
-        this.terrain.material.baseTexture = new BABYLON.Texture('./assets/5.png', this.core);
+
+        this.player = new Player(this, 'player');
+        this.spawnUnit(this.player);
 
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
 
-        for (let i = 0; i < 2; ++i) {
+        for (let i = 0; i < 5; ++i) {
             this.spawnPoints[i] = new SpawnPoint(this, 'spawn_point', this.treasure);
             this.spawnUnit(this.spawnPoints[i]);
         }
 
+        //
+        this.mainCamera = new BABYLON.FreeCamera('camera', this.startPosition, this.core);
+        this.mainCamera.attachControl(this.core.getEngine().getRenderingCanvas(), true);
+        this.player.parent = this.mainCamera;
+
+        // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
         });
 
-        vrHelper.webVRCamera.onControllersAttachedObservable.add(
-            evData => {
-                const lCube = MeshBuilder.CreateBox('left hand', { size: 0.01 });
-                const dCube = MeshBuilder.CreateBox('left hand debug', { size: 0.01 });
-                dCube.parent = lCube;
-                dCube.position.z -= 0.3;
-                vrHelper.webVRCamera.rightController.attachToMesh(lCube);
-                const weapon = new Weapon(this, 'leftBanana', lCube, dCube);
-                this.spawnUnit(weapon);
-                let val = 0;
-                vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
-                    val += evdata.value;
-                    if (val > 0.8) {
-                        weapon.shoot();
-                        val = 0;
-                    }
-                });
+        vrHelper.webVRCamera.onControllersAttachedObservable.add(evData => {
+            this.mainCamera = vrHelper.webVRCamera;
+            this.mainCamera.position = this.startPosition;
+            this.player.parent = this.mainCamera;
+
+            if (this.gunCreated === false) {
+                const cubeRight = MeshBuilder.CreateBox('right_hand', { width: 0.2, depth: 0.1, height: 0.3 });
+                cubeRight.isVisible = false;
+
+                vrHelper.webVRCamera.rightController.attachToMesh(cubeRight);
+                this.weaponRight = new Weapon(this, 'banana1', cubeRight);
+                this.spawnUnit(this.weaponRight);
+
+                const cubeleft = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
+                cubeleft.isVisible = false;
+
+                vrHelper.webVRCamera.leftController.attachToMesh(cubeleft);
+                this.weaponLeft = new Weapon(this, 'banana2', cubeleft);
+                this.spawnUnit(this.weaponLeft);
+
+                this.gunCreated = true;
+            }
+
+            vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
+                if (evdata.pressed && !this.rightTriggerPressed) {
+                    this.weaponRight.shoot();
+                    this.rightTriggerPressed = true;
+                } else if (!evdata.pressed && this.rightTriggerPressed) {
+                    this.rightTriggerPressed = false;
+                }
             });
+            vrHelper.webVRCamera.leftController.onTriggerStateChangedObservable.add(evdata => {
+                if (evdata.pressed && !this.leftTriggerPressed) {
+                    this.weaponLeft.shoot();
+                    this.leftTriggerPressed = true;
+                } else if (!evdata.pressed && this.leftTriggerPressed) {
+                    this.leftTriggerPressed = false;
+                }
+            });
+        });
     }
 
     onClose() {
@@ -76,7 +139,7 @@ export class CarryScene extends GameScene {
     onUpdate() {
         if (this.timer > 2) {
             for (let i = 0; i < this.spawnPoints.length; ++i) {
-                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 50 - 25, 0, Math.random() * 50 - 25);
+                this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 100 - 50, 0, Math.random() * 100 - 50);
             }
         }
 
@@ -88,22 +151,6 @@ export class CarryScene extends GameScene {
     }
 
     onResize() {
-
-    }
-
-
-    // Stuff
-    createEnvironment() {
-        const light = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
-        const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
-
-        const skyMaterial = new BABYLON.SkyMaterial('skyMaterial', this.core);
-        skyMaterial.backFaceCulling = false;
-        skyMaterial.useSunPosition = true;
-        skyMaterial.sunPosition = new BABYLON.Vector3(100, 100, 100);
-
-        const skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.core);
-        skybox.material = skyMaterial;
 
     }
 }

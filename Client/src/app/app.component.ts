@@ -20,17 +20,10 @@ export class AppComponent implements OnInit {
         const engine = new Engine(canvas, true);
 
         const scene = new Scene(engine);
-        // scene.debugLayer.show();
-
-
-        // Sample Usage
-        this.socket.freeze.subscribe(vector => {
-            // Do anithing with vector
-        }, error => {
-            '.. Если что-то слуится';
-        });
+        scene.debugLayer.show();
 
         const currentScene = new CarryScene(scene, this.socket);
+        this.socket.setScene(currentScene);
 
         currentScene.onStart();
 

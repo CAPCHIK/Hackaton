@@ -5,7 +5,7 @@ const server: http.Server = http.createServer((req, res) => {
     res.end("For replication");
 });
 
-server.listen(80);
+server.listen(4000);
 
 const io: SocketIO.Server = sockio(server);
 
@@ -18,8 +18,15 @@ io.on("connection", socket => {
         socket.broadcast.emit("treasure_hp"));
     socket.on("build_tower", data =>
         socket.broadcast.emit("build_tower", data));
+    socket.on("playerUpdate", data =>
+        socket.broadcast.emit("playerUpdate", data));
+    socket.on("treasureUpdate", data =>
+        socket.broadcast.emit("treasureUpdate", data));
+    socket.on("mobsUpdate", data =>
+        socket.broadcast.emit("mobsUpdate", data));
+    socket.on("lootUpdate", data =>
+        socket.broadcast.emit("lootUpdate", data));
     socket.on("carry_buff", () => {
-        console.log('carry buff');
         socket.broadcast.emit("carry_buff");
     });
     socket.on("move_treasure", data =>

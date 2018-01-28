@@ -7,37 +7,23 @@ import * as ts from 'typescript';
 import { Loot } from '../units/Loot';
 import { Mob } from '../units/Mob';
 import { Player } from '../units/Player';
-import { SpellObject } from '../units/SpellObject';
 import { StaticObject } from '../units/StaticObject';
 import { Tower } from '../units/Tower';
 import { Treasure } from '../units/Treasure';
 import { Weapon } from '../units/Weapon';
-
-class SerializationHelper {
-    static toInstance<T>(obj: T, json: string): T {
-        const jsonObj = JSON.parse(json);
-
-        if (typeof obj['fromJSON'] === 'function') {
-            obj['fromJSON'](jsonObj);
-        } else {
-            for (const propName in jsonObj) {
-                obj[propName] = jsonObj[propName]
-            }
-        }
-
-        return obj;
-    }
-}
+import { ResourceManager } from '../stuff/ResourceManager';
 
 export abstract class GameScene {
     readonly core: BABYLON.Scene;
-    public socketService: SocketIoService;
-    protected units: Map<string, GameUnit>;
 
-    public constructor(core: BABYLON.Scene, socket: SocketIoService) {
+    public units: Map<number, GameUnit>;
+    public resourceManager: ResourceManager;
+    public shadowGenerator: BABYLON.ShadowGenerator;
+    public mainCamera: BABYLON.FreeCamera;
+
+    public constructor(core: BABYLON.Scene, public socket: SocketIoService) {
         this.core = core;
-        this.socketService = socket;
-        this.units = new Map<string, GameUnit>();
+        this.units = new Map<number, GameUnit>();
     }
 
     abstract onStart(): void;
@@ -60,30 +46,13 @@ export abstract class GameScene {
     }
 
     spawnUnit(unit: GameUnit) {
-        /*const unitObject = unit.getSyncData();
-        unitObject._type = unit.constructor.name;
-
-        this.socketService.connection.emit('create_object', unitObject);*/
-
-        this.units.set(unit.name, unit);
+        this.units.set(unit.uid, unit);
         unit.onCreate();
     }
 
     deleteUnit(unit: GameUnit) {
         unit.onDestroy();
+        this.units.delete(unit.uid);
         unit.dispose();
-        this.units.delete(unit.name);
     }
-
-    /*onSpawnObject(unitObject: any) {
-        const result = 'SerializationHelper.toInstance(new ' + unitObject._type + '(), json);';
-        const objectCasting = ts.transpile(result);
-        console.log(result);
-        const unit = eval(result);
-
-        console.log(unit);
-
-        this.units.set(unit.uid, unit);
-        unit.onCreate();
-    }*/
 }

@@ -1,29 +1,33 @@
 import { GameUnit } from '../bases/GameUnit';
 import { Debug, float } from 'babylonjs';
 import { GameScene } from '../bases/GameScene';
+import { Model } from '../stuff/ResourceManager';
 
 export class StaticObject extends GameUnit {
-    public meshes: BABYLON.AbstractMesh[];
-    public material: BABYLON.PBRMetallicRoughnessMaterial;
-
     constructor(scene: GameScene, name: string, private modelName: string) {
         super(scene, name);
     }
 
     onCreate() {
-        this.material = new BABYLON.PBRMetallicRoughnessMaterial('pbr', this.scene.core);
+        this.scene.resourceManager.load(this.modelName, (model: Model) => {
+            if (model == null || model.meshes == null) {
+                return;
+            }
 
-        BABYLON.SceneLoader.ImportMesh('', './assets/', this.modelName, this.scene.core,
-        (newMeshes, particleSystems, skeletons) => {
-            this.meshes = newMeshes;
+            model.meshes.forEach(mesh => {
+                const newMesh = mesh.clone(this.name + '_mesh', this, false);
+                newMesh.isVisible = true;
 
-            this.meshes.forEach(mesh => {
-                mesh.parent = this;
-                mesh.material = this.material;
+                this.scene.shadowGenerator.getShadowMap().renderList.push(newMesh);
+                newMesh.receiveShadows = true;
             });
         });
     }
 
     onUpdate() {
+    }
+
+    getSyncData() {
+        return {};
     }
 }
