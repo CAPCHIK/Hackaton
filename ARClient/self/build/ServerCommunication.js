@@ -1,7 +1,7 @@
 
 var funHackManager = {};
 
-var socket = io('http://62.109.18.175:4000');
+var socket = io('https://aluminiumcomposite.ru/');
 
 socket.on('connect', function () { console.log('connected') });
 socket.on('playerUpdate', function (data) {
