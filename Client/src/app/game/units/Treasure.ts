@@ -8,7 +8,7 @@ export class Treasure extends GameUnit {
     private hpIndicator: AbstractMesh;
     private hpMaterial: CustomMaterial;
     constructor(scene: GameScene, name: string) {
-        super(scene, name, 100000);
+        super(scene, name, 100);
     }
 
     onCreate() {

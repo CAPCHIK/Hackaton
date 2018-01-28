@@ -22,7 +22,8 @@ export class CarryScene extends GameScene {
     private mainLight: BABYLON.DirectionalLight;
     private mainLightOffset = new BABYLON.Vector3(50, 50, 50);
 
-    private weapon: Weapon;
+    private weaponLeft: Weapon;
+    private weaponRight: Weapon;
 
     private rightTriggerPressed = false;
     private leftTriggerPressed = false;
@@ -32,6 +33,7 @@ export class CarryScene extends GameScene {
 
     onStart() {
         this.mainLight = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
+        this.mainLight.position = this.mainLightOffset;
 
         const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
 
@@ -90,26 +92,26 @@ export class CarryScene extends GameScene {
             this.player.parent = this.mainCamera;
 
             if (this.gunCreated === false) {
-                const cube = MeshBuilder.CreateBox('right_hand', { width: 0.2, depth: 0.1, height: 0.3 });
-                cube.isVisible = false;
+                const cubeRight = MeshBuilder.CreateBox('right_hand', { width: 0.2, depth: 0.1, height: 0.3 });
+                cubeRight.isVisible = false;
 
-                vrHelper.webVRCamera.rightController.attachToMesh(cube);
-                this.weapon = new Weapon(this, 'banana', cube);
-                this.spawnUnit(this.weapon);
+                vrHelper.webVRCamera.rightController.attachToMesh(cubeRight);
+                this.weaponRight = new Weapon(this, 'banana1', cubeRight);
+                this.spawnUnit(this.weaponRight);
 
                 const cubeleft = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
                 cubeleft.isVisible = false;
 
-                vrHelper.webVRCamera.leftController.attachToMesh(cube);
-                this.weapon = new Weapon(this, 'banana2', cubeleft);
-                this.spawnUnit(this.weapon);
+                vrHelper.webVRCamera.leftController.attachToMesh(cubeleft);
+                this.weaponLeft = new Weapon(this, 'banana2', cubeleft);
+                this.spawnUnit(this.weaponLeft);
 
                 this.gunCreated = true;
             }
 
             vrHelper.webVRCamera.rightController.onTriggerStateChangedObservable.add(evdata => {
                 if (evdata.pressed && !this.rightTriggerPressed) {
-                    this.weapon.shoot();
+                    this.weaponRight.shoot();
                     this.rightTriggerPressed = true;
                 } else if (!evdata.pressed && this.rightTriggerPressed) {
                     this.rightTriggerPressed = false;
@@ -117,7 +119,7 @@ export class CarryScene extends GameScene {
             });
             vrHelper.webVRCamera.leftController.onTriggerStateChangedObservable.add(evdata => {
                 if (evdata.pressed && !this.leftTriggerPressed) {
-                    this.weapon.shoot();
+                    this.weaponLeft.shoot();
                     this.leftTriggerPressed = true;
                 } else if (!evdata.pressed && this.leftTriggerPressed) {
                     this.leftTriggerPressed = false;
@@ -135,8 +137,6 @@ export class CarryScene extends GameScene {
     }
 
     onUpdate() {
-        this.mainLight.position = this.player.absolutePosition.add(this.mainLightOffset);
-
         if (this.timer > 2) {
             for (let i = 0; i < this.spawnPoints.length; ++i) {
                 this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 100 - 50, 0, Math.random() * 100 - 50);
