@@ -24,6 +24,11 @@ export class SocketIoService {
 
     constructor() {
         this.connection = io('http://62.109.18.175:4000/');
+
+        this.connection.on('playerUpdate', d => {
+            //console.log(d);
+        });
+
         let observerCarry: Subscriber<any>;
         const observable = new Observable<any>(obs => {
             observerCarry = obs;

@@ -81,7 +81,7 @@ export class Mob extends GameUnit {
 
         let direction = new BABYLON.Vector3(this.target.position.x, 0, this.target.position.z).subtract(this.position);
 
-        if (direction.length() < 2) {
+        if (direction.length() <= 2) {
             this.target.applyDamage(0.3);
             this.scene.deleteUnit(this);
             return;

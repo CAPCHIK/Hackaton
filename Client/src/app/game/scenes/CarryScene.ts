@@ -19,18 +19,22 @@ export class CarryScene extends GameScene {
 
     private spawnPoints = new Array<SpawnPoint>();
 
+    private mainLight: BABYLON.DirectionalLight;
+    private mainLightOffset = new BABYLON.Vector3(50, 50, 50);
+
     private weapon: Weapon;
 
     private triggerPressed = false;
     private gunCreated = false;
 
+    private startPosition = new BABYLON.Vector3(5, 4, -10);
+
     onStart() {
-        const light1 = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
-        light1.position = new BABYLON.Vector3(50, 50, 50);
+        this.mainLight = new BABYLON.DirectionalLight('DirectionalLight', new BABYLON.Vector3(-1, -1, -1), this.core);
 
         const light2 = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), this.core);
 
-        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, light1);
+        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, this.mainLight);
         this.shadowGenerator.useExponentialShadowMap = true;
         this.shadowGenerator.forceBackFacesOnly = true;
 
@@ -58,9 +62,8 @@ export class CarryScene extends GameScene {
         this.terrain = new StaticObject(this, 'terrain', 'terrain');
         this.spawnUnit(this.terrain);
 
-        this.player = new Player(this, 'player', new Vector3(5, 2, -10));
+        this.player = new Player(this, 'player');
         this.spawnUnit(this.player);
-        light1.parent = this.player;
 
         this.treasure = new Treasure(this, 'treasure');
         this.spawnUnit(this.treasure);
@@ -71,17 +74,20 @@ export class CarryScene extends GameScene {
         }
 
         //
-        this.socket.freezeMobs.subscribe(vector => {
-        }, error => {
-        });
+        this.mainCamera = new BABYLON.FreeCamera('camera', this.startPosition, this.core);
+        this.mainCamera.attachControl(this.core.getEngine().getRenderingCanvas(), true);
+        this.player.parent = this.mainCamera;
 
         // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
         });
-        this.player.parent = vrHelper.webVRCamera;
 
         vrHelper.webVRCamera.onControllersAttachedObservable.add(evData => {
+            this.mainCamera = vrHelper.webVRCamera;
+            this.mainCamera.position = this.startPosition;
+            this.player.parent = this.mainCamera;
+
             if (this.gunCreated === false) {
                 const cube = MeshBuilder.CreateBox('left_hand', { width: 0.2, depth: 0.1, height: 0.3 });
                 cube.isVisible = false;
@@ -113,6 +119,8 @@ export class CarryScene extends GameScene {
     }
 
     onUpdate() {
+        this.mainLight.position = this.player.absolutePosition.add(this.mainLightOffset);
+
         if (this.timer > 2) {
             for (let i = 0; i < this.spawnPoints.length; ++i) {
                 this.spawnPoints[i].position = new BABYLON.Vector3(Math.random() * 100 - 50, 0, Math.random() * 100 - 50);

@@ -19,6 +19,7 @@ export abstract class GameScene {
     public units: Map<number, GameUnit>;
     public resourceManager: ResourceManager;
     public shadowGenerator: BABYLON.ShadowGenerator;
+    public mainCamera: BABYLON.FreeCamera;
 
     public constructor(core: BABYLON.Scene, public socket: SocketIoService) {
         this.core = core;
@@ -51,7 +52,7 @@ export abstract class GameScene {
 
     deleteUnit(unit: GameUnit) {
         unit.onDestroy();
-        unit.dispose();
         this.units.delete(unit.uid);
+        unit.dispose();
     }
 }

@@ -25,7 +25,7 @@ export class Loot extends GameUnit {
         return {
             unitType: 'Loot',
             uid: this.uid,
-            position: this.position,
+            position: this.absolutePosition,
             type: this.type,
             amount: this.amount
         };
