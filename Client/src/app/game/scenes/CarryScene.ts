@@ -7,6 +7,7 @@ import { Treasure } from '../units/Treasure';
 import { SpawnPoint } from '../units/SpawnPoint';
 import { Weapon } from '../units/Weapon';
 import { ResourceManager } from '../stuff/ResourceManager';
+import { Teleport } from '../units/Teleport';
 
 export class CarryScene extends GameScene {
     private timer = 0;
@@ -81,6 +82,13 @@ export class CarryScene extends GameScene {
         this.mainCamera.attachControl(this.core.getEngine().getRenderingCanvas(), true);
         this.player.parent = this.mainCamera;
 
+
+        //
+        const tp = new Teleport(this, 'first_tp',  new BABYLON.Vector3(8, 0, -1));
+        this.spawnUnit(tp);
+
+
+
         // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
@@ -124,6 +132,11 @@ export class CarryScene extends GameScene {
                 } else if (!evdata.pressed && this.leftTriggerPressed) {
                     this.leftTriggerPressed = false;
                 }
+            });
+
+
+            vrHelper.webVRCamera.rightController.onSecondaryButtonStateChangedObservable.add(data => {
+                console.log(data.pressed);
             });
         });
     }
