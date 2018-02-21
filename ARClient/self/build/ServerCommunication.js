@@ -1,7 +1,7 @@
 
 var funHackManager = {};
 
-var socket = io('https://aluminiumcomposite.ru/');
+var socket = io('https://nodeserverrs.azurewebsites.net/ ');
 
 socket.on('connect', function () { console.log('connected') });
 socket.on('playerUpdate', function (data) {
