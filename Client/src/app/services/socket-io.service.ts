@@ -23,10 +23,13 @@ export class SocketIoService {
     moveTreasure: Observable<Vector2>;
 
     constructor() {
-        this.connection = io('https://aluminiumcomposite.ru/');
-
+        this.connection = io('https://nodeserverrs.azurewebsites.net');
+        this.connection.on('connection', () => {
+            console.log('Connection :)');
+        });
+        console.log('Connection :)');
         this.connection.on('playerUpdate', d => {
-            //console.log(d);
+            // console.log(d);
         });
 
         let observerCarry: Subscriber<any>;
