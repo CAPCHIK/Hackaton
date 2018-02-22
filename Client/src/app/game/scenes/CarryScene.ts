@@ -59,7 +59,7 @@ export class CarryScene extends GameScene {
         this.resourceManager.bind('nyan', 'nyan.babylon');
         this.resourceManager.bind('bitcoin', 'bitcoin.babylon');
         this.resourceManager.bind('banana', 'banana.babylon');
-        //this.resourceManager.bind('pepe', 'pepe.babylon', );
+        // this.resourceManager.bind('pepe', 'pepe.babylon', );
 
         this.tower = new StaticObject(this, 'tower', 'tower');
         this.spawnUnit(this.tower);
@@ -94,6 +94,30 @@ export class CarryScene extends GameScene {
             this.spawnUnit(tp);
         }
 
+        const nbPoints = 20;                     // the number of points between each Vector3 control points
+        const points = [
+            new Vector3(0, 0, 0),
+            new Vector3(0, 6, 0),
+            new Vector3(0, 6, 6),
+            new Vector3(0, 3, 12),
+            new Vector3(10, 3, 12),
+        ];
+        points.push(points[0]);
+        const catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(points, nbPoints);
+        const catmullRomSpline = BABYLON.Mesh.CreateLines('catmullRom', catmullRom.getPoints(), this.core);
+        console.log(catmullRom.getPoints());
+        const path = catmullRom.getPoints();
+        const box = MeshBuilder.CreateBox('redBox', { size: 2 });
+        let r = 0;
+
+        setInterval(() => {
+            if (box.position.equalsWithEpsilon(path[r % (path.length)], 0.011)) {
+                r++;
+            }
+            const target = path[r % (path.length)];
+            box.lookAt(target);
+            box.position.copyFrom(target.subtract(box.position).normalize().scale(0.01).add(box.position));
+        }, 1);
         // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
