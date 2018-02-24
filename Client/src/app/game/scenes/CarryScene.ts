@@ -8,6 +8,7 @@ import { SpawnPoint } from '../units/SpawnPoint';
 import { Weapon } from '../units/Weapon';
 import { ResourceManager } from '../stuff/ResourceManager';
 import { Teleport } from '../units/Teleport';
+import { PathMover } from '../stuff/PathMover';
 
 export class CarryScene extends GameScene {
     private timer = 0;
@@ -94,30 +95,38 @@ export class CarryScene extends GameScene {
             this.spawnUnit(tp);
         }
 
-        const nbPoints = 20;                     // the number of points between each Vector3 control points
+        const nbPoints = 3;                     // the number of points between each Vector3 control points
         const points = [
             new Vector3(0, 0, 0),
-            new Vector3(0, 6, 0),
+            new Vector3(0, 60, 0),
             new Vector3(0, 6, 6),
-            new Vector3(0, 3, 12),
+            new Vector3(0, 30, 12),
             new Vector3(10, 3, 12),
         ];
-        points.push(points[0]);
+        // points.push(points[0]);
         const catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(points, nbPoints);
         const catmullRomSpline = BABYLON.Mesh.CreateLines('catmullRom', catmullRom.getPoints(), this.core);
         console.log(catmullRom.getPoints());
         const path = catmullRom.getPoints();
         const box = MeshBuilder.CreateBox('redBox', { size: 2 });
-        let r = 0;
+        // let r = 0;
+        const mover = new PathMover(path, 0.01);
+        setTimeout(() => mover.speed = 0.1, 4000);
+        setTimeout(() => mover.speed = 1, 8000);
+        setTimeout(() => mover.speed = 0.01, 12000);
 
-        setInterval(() => {
-            if (box.position.equalsWithEpsilon(path[r % (path.length)], 0.011)) {
-                r++;
-            }
-            const target = path[r % (path.length)];
-            box.lookAt(target);
-            box.position.copyFrom(target.subtract(box.position).normalize().scale(0.01).add(box.position));
-        }, 1);
+
+        this.core.registerBeforeRender(() => {
+            const n = mover.move();
+            box.position.copyFrom(n.position);
+            box.lookAt(n.direction);
+            // if (box.position.equalsWithEpsilon(path[r % (path.length)], 0.11 * 10)) {
+            //     r++;
+            // }
+            // const target = path[r % (path.length)];
+            // box.lookAt(target);
+            // box.position.copyFrom(target.subtract(box.position).normalize().scale(0.1 * 10).add(box.position));
+        });
         // create vr
         const vrHelper = this.core.createDefaultVRExperience({
             controllerMeshes: false
